@@ -233,6 +233,9 @@ p + p { margin-top: .85em; }
 .btn--ink { background: var(--ink); border-color: var(--ink); color: var(--bg); }
 .btn--ink:hover { background: var(--ink-2); border-color: var(--ink-2); color: var(--bg); }
 .band .btn--ink { background: var(--on-night); border-color: var(--on-night); color: var(--night); }
+.band .btn--primary, .band .btn--primary:hover { color: #122B33; }
+.band .btn--whatsapp, .band .btn--whatsapp:hover { color: #072B13; }
+.band .btn--danger, .band .btn--danger:hover { color: #fff; }
 .btn--ghost { background: transparent; border-color: var(--line-strong); }
 .band .btn--ghost, .dark-head .btn--ghost { color: var(--on-night); border-color: rgba(234,240,238,.35); }
 .band .btn--ghost:hover, .dark-head .btn--ghost:hover { border-color: var(--on-night); color: var(--on-night); }
