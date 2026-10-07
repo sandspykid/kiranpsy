@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Book a visit · Kiran Neuro-Psychiatry Care</title>
+<meta name="description" content="Book a clinic or video visit with Dr. Keyur Parmar or Dr. Vikram Zala in Bhavnagar. Get a token and an arrive-by time. Private consult mode available.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='26' r='9' fill='%23E3A23A'/%3E%3Cpath d='M20 4v7M8.3 9.3l4.9 4.9M31.7 9.3l-4.9 4.9M3 20h7M30 20h7' stroke='%23122B33' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600;700&family=Mukta+Vaani:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .days { display: flex; gap: .5rem; overflow-x: auto; padding-bottom: .3rem; scrollbar-width: thin; }
+  .day { flex: none; width: 84px; border: 1.5px solid var(--line); border-radius: 12px; padding: .6rem .4rem; text-align: center; background: var(--surface); font-weight: 600; }
+  .day small { display: block; font-size: .72rem; color: var(--muted); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+  .day b { display: block; font-family: var(--font-display); font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+  .day[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+  .day[aria-pressed="true"] small { color: inherit; opacity: .75; }
+  .day[disabled] { opacity: .4; cursor: not-allowed; }
+  .session-tabs { display: flex; gap: .4rem; }
+  .ticket { border: 1.5px dashed var(--gold); border-radius: var(--radius-lg); padding: 1.3rem; background: var(--gold-soft); display: grid; gap: .8rem; }
+  .ticket .t-token { font-family: var(--font-display); font-size: 3.4rem; font-weight: 650; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+  .ticket .t-token small { display: block; font-family: var(--font-body); font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: .3rem; font-weight: 700; }
+  .ticket .kv { grid-template-columns: 120px 1fr; font-size: .95rem; }
+  .private-note { display: none; }
+  .is-private .private-note { display: block; }
+  .is-private .not-private { display: none; }
+  .err { color: var(--crimson); font-size: .85rem; font-weight: 600; }
+</style>
+</head>
+<body data-page="book">
+<div id="site-header"></div>
+
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><span>Book a visit</span></nav>
+      <p class="eyebrow">Book a visit</p>
+      <h1>Pick a time. Skip the waiting room.</h1>
+      <p class="lede">Choose clinic or video, your doctor and a slot. You get a token and an "arrive by" time. No account, no reception phone call. If you would rather talk first, <a href="https://wa.me/918758299921" target="_blank" rel="noopener">WhatsApp reception</a> or call <a class="num" href="tel:+918758299921">+91 87582 99921</a>.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="wizard" id="wizard">
+        <div>
+          <div class="progress-label" id="progress-label">Step 1 of 6 · Who and what</div>
+          <div class="progress" id="progress" aria-hidden="true"><i class="cur"></i><i></i><i></i><i></i><i></i><i></i></div>
+
+          <!-- Step 1 -->
+          <section class="pane active" data-step="1" aria-label="Step 1: who is this visit for">
+            <div>
+              <h2 style="font-size:var(--step-3)">Who is this visit for?</h2>
+              <p class="muted mt-1">You can book for yourself, for a family member, or for your child.</p>
+            </div>
+            <div class="choice-grid choice-grid--3" role="radiogroup" aria-label="Who is this for">
+              <label class="choice"><input type="radio" name="who" value="Myself" checked><span><b>Myself</b><span>I will be the one seeing the doctor</span></span></label>
+              <label class="choice"><input type="radio" name="who" value="A family member"><span><b>A family member</b><span>I am booking for a parent, spouse or sibling</span></span></label>
+              <label class="choice"><input type="radio" name="who" value="My child"><span><b>My child</b><span>Under 18. One parent comes along</span></span></label>
+            </div>
+            <div>
+              <h3 style="font-size:var(--step-2)">What kind of visit?</h3>
+            </div>
+            <div class="choice-grid choice-grid--2" role="radiogroup" aria-label="Visit type">
+              <label class="choice"><input type="radio" name="kind" value="New visit" checked><span><b>New visit</b><span>First time at this clinic, or a new problem. 30-40 minutes.</span></span></label>
+              <label class="choice"><input type="radio" name="kind" value="Follow-up"><span><b>Follow-up</b><span>You already have a plan with us. 10-15 minutes.</span></span></label>
+            </div>
+            <div class="wizard-nav"><span></span><button type="button" class="btn btn--primary" data-next>Continue</button></div>
+          </section>
+
+          <!-- Step 2 -->
+          <section class="pane" data-step="2" aria-label="Step 2: clinic or video">
+            <div>
+              <h2 style="font-size:var(--step-3)">In the clinic, or on video?</h2>
+              <p class="muted mt-1">First visits work best in person. Follow-ups and second opinions work well on video, wherever you are in Saurashtra.</p>
+            </div>
+            <div class="choice-grid choice-grid--2" role="radiogroup" aria-label="Where">
+              <label class="choice"><input type="radio" name="where" value="In the clinic" checked><span><b>In the clinic</b><span>Samved Complex, Jail Road. Token and arrive-by time so you wait minutes, not hours.</span></span></label>
+              <label class="choice" id="video"><input type="radio" name="where" value="Video"><span><b>Video visit</b><span>Link on WhatsApp. Prescription sent as a PDF with Gujarati instructions, valid under India's Telemedicine Practice Guidelines.</span></span></label>
+            </div>
+            <div class="callout callout--info" id="video-note" hidden><b>Video for a first visit</b>If this is a new problem and you live outside Bhavnagar, we will still see you on video. The doctor may ask for one in-person visit later for examination or an EEG.</div>
+            <div class="wizard-nav"><button type="button" class="btn btn--ghost" data-prev>Back</button><button type="button" class="btn btn--primary" data-next>Continue</button></div>
+          </section>
+
+          <!-- Step 3 -->
+          <section class="pane" data-step="3" aria-label="Step 3: doctor">
+            <div>
+              <h2 style="font-size:var(--step-3)">Which doctor?</h2>
+              <p class="muted mt-1">Both doctors see every condition. Pick by availability, or by focus.</p>
+            </div>
+            <div class="choice-grid" role="radiogroup" aria-label="Doctor">
+              <label class="choice"><input type="radio" name="doctor" value="Dr. Keyur Parmar" checked><span><b>Dr. Keyur Parmar</b><span>MD Psychiatry, gold medallist · addiction, sexual health, mood, psychosis · since 2012</span><span class="cluster mt-1"><span class="chip chip--gold">Deaddiction</span><span class="chip chip--gold">Sexual health</span><span class="chip">Mood</span><span class="chip">Psychosis</span></span></span></label>
+              <label class="choice"><input type="radio" name="doctor" value="Dr. Vikram Zala"><span><b>Dr. Vikram Zala</b><span>DPM Neuro-Psychiatry · anxiety, mood, child and adolescent, EEG and epilepsy · since 2022</span><span class="cluster mt-1"><span class="chip chip--gold">Child &amp; adolescent</span><span class="chip chip--gold">EEG &amp; epilepsy</span><span class="chip">Anxiety</span><span class="chip">Video follow-ups</span></span></span></label>
+              <label class="choice"><input type="radio" name="doctor" value="First available"><span><b>First available</b><span>Whoever has the earliest slot. Good for follow-ups and urgent new visits.</span></span></label>
+            </div>
+            <div class="wizard-nav"><button type="button" class="btn btn--ghost" data-prev>Back</button><button type="button" class="btn btn--primary" data-next>Continue</button></div>
+          </section>
+
+          <!-- Step 4 -->
+          <section class="pane" data-step="4" aria-label="Step 4: day and time">
+            <div>
+              <h2 style="font-size:var(--step-3)">Day and time</h2>
+              <p class="muted mt-1">Clinic runs Monday to Saturday, 10:00-13:00 and 16:00-19:00. Your token is the order you are seen in; your arrive-by time is ten minutes before your slot.</p>
+            </div>
+            <div class="days" id="days" role="radiogroup" aria-label="Day"></div>
+            <div class="flex between" style="flex-wrap:wrap;gap:.6rem">
+              <div class="pill-tabs session-tabs" role="tablist" aria-label="Session" id="sessions">
+                <button type="button" role="tab" aria-selected="true" data-session="Morning">Morning · 10-1</button>
+                <button type="button" role="tab" aria-selected="false" data-session="Evening">Evening · 4-7</button>
+              </div>
+              <label class="switch not-private"><input type="checkbox" id="show-discreet"><span>Show discreet slots only</span></label>
+            </div>
+            <div class="slots" id="slots" role="radiogroup" aria-label="Time"></div>
+            <p class="help">Dashed slots are the first and last of a session: the quietest times in the waiting area. Struck-through slots are already booked.</p>
+            <p class="err" id="slot-err" hidden>Please choose a time.</p>
+            <div class="wizard-nav"><button type="button" class="btn btn--ghost" data-prev>Back</button><button type="button" class="btn btn--primary" data-next>Continue</button></div>
+          </section>
+
+          <!-- Step 5 -->
+          <section class="pane" data-step="5" aria-label="Step 5: your details">
+            <div>
+              <h2 style="font-size:var(--step-3)">Your details</h2>
+              <p class="muted mt-1">Only a phone number is required. Everything else helps the doctor prepare.</p>
+            </div>
+            <div class="card card--flat" id="private">
+              <label class="switch"><input type="checkbox" id="private-mode"><span>Private consult mode</span></label>
+              <p class="help mt-1">For sexual health, addiction, or whenever you prefer. Book under a first name or alias, give only a phone number, and reception will not ask anything further. Your doctor still knows everything you choose to tell them in the room.</p>
+              <p class="private-note small mt-2" style="color:var(--sage);font-weight:600">Private mode is on. Discreet slots are shown first, the WhatsApp confirmation says only "Appointment, Thursday 4:10 pm, Samved Complex", and no diagnosis appears on any message.</p>
+            </div>
+            <div class="grid grid-2">
+              <label class="field"><span id="name-label">Full name</span><input type="text" id="name" autocomplete="name" placeholder="As on your ID, or any name you prefer"></label>
+              <label class="field">Mobile number (WhatsApp) <input type="tel" id="phone" inputmode="tel" autocomplete="tel" placeholder="98250 00000" required></label>
+              <label class="field">Age <input type="number" id="age" min="1" max="110" inputmode="numeric" placeholder="e.g. 34"></label>
+              <label class="field">Language for the visit
+                <select id="language"><option>Gujarati</option><option>Hindi</option><option>English</option></select>
+              </label>
+            </div>
+            <label class="field">What brings you in? (optional)
+              <textarea id="reason" placeholder="A line or two is enough. Kiran Saathi can help you put it into words before the visit."></textarea>
+            </label>
+            <div id="attach-wrap" hidden class="callout callout--good"><b>Self-check result attached</b><span id="attach-text"></span></div>
+            <div class="grid grid-2">
+              <label class="field">ABHA number (optional)<input type="text" id="abha" inputmode="numeric" placeholder="14-digit Ayushman Bharat Health Account"><span class="help">Links this visit to your national health record. Entirely optional.</span></label>
+              <div class="stack-sm" style="align-self:end">
+                <label class="switch"><input type="checkbox" id="consent-wa" checked><span>Send reminders on WhatsApp</span></label>
+                <label class="switch"><input type="checkbox" id="consent-saathi"><span>Let Kiran Saathi help me prepare</span></label>
+              </div>
+            </div>
+            <p class="err" id="phone-err" hidden>A 10-digit mobile number is needed so we can confirm your slot.</p>
+            <p class="help">By booking you agree to our <a href="rights.html#privacy">privacy notice</a>. We collect only what you type here, under the DPDP Act 2023.</p>
+            <div class="wizard-nav"><button type="button" class="btn btn--ghost" data-prev>Back</button><button type="button" class="btn btn--primary" data-next>Review booking</button></div>
+          </section>
+
+          <!-- Step 6 -->
+          <section class="pane" data-step="6" aria-label="Step 6: confirm">
+            <div>
+              <h2 style="font-size:var(--step-3)">Confirm your visit</h2>
+              <p class="muted mt-1">Check the details. Nothing is sent until you confirm.</p>
+            </div>
+            <div class="ticket" id="ticket"></div>
+            <div class="grid grid-2">
+              <div class="card">
+                <h4>Bring with you</h4>
+                <ul class="check-list mt-2 small" id="bring-list">
+                  <li>Previous prescriptions and reports, in date order</li>
+                  <li>Strips of any medicines you take now</li>
+                  <li>One family member, if you want them in the room</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>Fee and payment</h4>
+                <p class="small ink-2 mt-2">The consultation fee is shown on your WhatsApp confirmation. Pay at reception by cash or UPI, or online for video visits. Reschedule free of charge with two hours' notice: reply "reschedule" to the confirmation.</p>
+              </div>
+            </div>
+            <div class="wizard-nav"><button type="button" class="btn btn--ghost" data-prev>Back</button><button type="button" class="btn btn--primary btn--lg" id="confirm">Confirm booking</button></div>
+          </section>
+
+          <!-- Done -->
+          <section class="pane" data-step="7" aria-label="Booked">
+            <div class="card card--lift" style="border-color:var(--sage)">
+              <span class="chip chip--sage">Booked</span>
+              <h2 class="mt-2" style="font-size:var(--step-3)">See you <span id="done-when"></span>.</h2>
+              <p class="ink-2 mt-2">A confirmation is on its way to <b id="done-phone"></b> on WhatsApp. Reply "reschedule" to move it. Your token and arrive-by time are on the message, and the live queue on the home page tells you if the clinic is running late.</p>
+              <div class="cluster mt-3">
+                <a class="btn btn--primary" href="saathi.html">Prepare with Saathi</a>
+                <a class="btn btn--ghost" href="conditions.html">What to expect at the visit</a>
+                <a class="btn btn--ghost" href="index.html">Back to home</a>
+              </div>
+              <p class="help mt-3">This is a demonstration. No appointment has been created at the clinic.</p>
+            </div>
+          </section>
+        </div>
+
+        <aside class="stack">
+          <div class="queue-card" data-queue aria-live="polite"></div>
+          <div class="card summary">
+            <div class="eyebrow eyebrow--plain" style="margin-bottom:.6rem">Your booking</div>
+            <dl class="kv" id="summary">
+              <dt>For</dt><dd data-sum="who">Myself</dd>
+              <dt>Visit</dt><dd data-sum="kind">New visit</dd>
+              <dt>Where</dt><dd data-sum="where">In the clinic</dd>
+              <dt>Doctor</dt><dd data-sum="doctor">Dr. Keyur Parmar</dd>
+              <dt>When</dt><dd data-sum="when" class="muted">Not chosen yet</dd>
+              <dt>Token</dt><dd data-sum="token" class="muted">After you pick a time</dd>
+            </dl>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid grid-3">
+        <div class="card card--flat">
+          <h3>Before a first visit</h3>
+          <p class="small ink-2">Write down the three or four things that trouble you most, with one example each. Bring old prescriptions in date order. If you can, complete the short form Saathi sends you so the doctor reads your story before you enter.</p>
+          <a class="link-arrow mt-2 small" href="resources.html#faq">How to make the visit useful</a>
+        </div>
+        <div class="card card--flat">
+          <h3>Before an EEG</h3>
+          <p class="small ink-2">Wash your hair the night before and skip oil or gel. Take your usual medicines unless the doctor says otherwise. If a sleep-deprived EEG is ordered, you will be told exactly how late to stay up.</p>
+          <a class="link-arrow mt-2 small" href="conditions.html#epilepsy">EEG and epilepsy clinic</a>
+        </div>
+        <div class="card card--flat">
+          <h3>Bringing a reluctant relative</h3>
+          <p class="small ink-2">Book the first slot of a session for a quiet waiting room. Tell them it is a "check-up for sleep and stress", which is true. The doctor will meet them where they are. You can brief the doctor through Saathi first.</p>
+          <a class="link-arrow mt-2 small" href="conditions.html#for-families">When it is someone you love</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="assets/i18n.js"></script>
+<script src="assets/site.js"></script>
+<script>
+(function () {
+  const state = { who: "Myself", kind: "New visit", where: "In the clinic", doctor: "Dr. Keyur Parmar", day: null, session: "Morning", slot: null, token: null, privateMode: false };
+  const panes = Array.from(document.querySelectorAll(".pane"));
+  const labels = ["Who and what", "Clinic or video", "Doctor", "Day and time", "Your details", "Confirm", "Booked"];
+  let step = 1;
+
+  function show(n) {
+    step = n;
+    panes.forEach((p) => p.classList.toggle("active", Number(p.dataset.step) === n));
+    const bars = document.querySelectorAll("#progress i");
+    bars.forEach((b, i) => { b.className = i + 1 < n ? "done" : i + 1 === n ? "cur" : ""; });
+    document.getElementById("progress-label").textContent = n <= 6 ? "Step " + n + " of 6 · " + labels[n - 1] : "Booked";
+    window.scrollTo({ top: document.getElementById("wizard").offsetTop - 120, behavior: "smooth" });
+  }
+  function sum(key, val, mutedFlag) { const el = document.querySelector('[data-sum="' + key + '"]'); el.textContent = val; el.classList.toggle("muted", !!mutedFlag); }
+
+  document.querySelectorAll('input[name="who"]').forEach((r) => r.addEventListener("change", () => { state.who = r.value; sum("who", r.value); }));
+  document.querySelectorAll('input[name="kind"]').forEach((r) => r.addEventListener("change", () => { state.kind = r.value; sum("kind", r.value); }));
+  document.querySelectorAll('input[name="where"]').forEach((r) => r.addEventListener("change", () => { state.where = r.value; sum("where", r.value); document.getElementById("video-note").hidden = !(r.value === "Video" && state.kind === "New visit"); }));
+  document.querySelectorAll('input[name="doctor"]').forEach((r) => r.addEventListener("change", () => { state.doctor = r.value; sum("doctor", r.value); }));
+
+  // Days: next 7 days in IST, Sundays disabled
+  const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const daysEl = document.getElementById("days");
+  const today = new Date();
+  const dayObjs = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+    dayObjs.push(d);
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "day"; b.setAttribute("aria-pressed", "false");
+    b.innerHTML = "<small>" + (i === 0 ? "Today" : i === 1 ? "Tomorrow" : DAYS[d.getDay()]) + "</small><b>" + d.getDate() + "</b><small>" + MONTHS[d.getMonth()] + "</small>";
+    if (d.getDay() === 0) { b.disabled = true; b.title = "Closed on Sunday"; }
+    b.addEventListener("click", () => { state.day = d; daysEl.querySelectorAll(".day").forEach((x) => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true"); renderSlots(); });
+    daysEl.appendChild(b);
+  }
+  // pick first open day by default
+  const firstOpen = daysEl.querySelector(".day:not([disabled])"); if (firstOpen) firstOpen.click();
+
+  document.querySelectorAll("#sessions [role=tab]").forEach((tb) => tb.addEventListener("click", () => {
+    document.querySelectorAll("#sessions [role=tab]").forEach((x) => x.setAttribute("aria-selected", "false"));
+    tb.setAttribute("aria-selected", "true"); state.session = tb.dataset.session; renderSlots();
+  }));
+  document.getElementById("show-discreet").addEventListener("change", renderSlots);
+
+  function fmt(mins) { const h = Math.floor(mins / 60), m = mins % 60; const ap = h >= 12 ? "pm" : "am"; return ((h + 11) % 12 + 1) + ":" + String(m).padStart(2, "0") + " " + ap; }
+  function renderSlots() {
+    const el = document.getElementById("slots"); el.innerHTML = "";
+    if (!state.day) return;
+    const start = state.session === "Morning" ? 600 : 960, end = state.session === "Morning" ? 780 : 1140;
+    const per = state.kind === "New visit" ? 20 : 10;
+    const now = window.istNow();
+    const isToday = state.day.toDateString() === today.toDateString();
+    const nowMins = now.hours * 60 + now.minutes;
+    const seed = state.day.getDate() + (state.session === "Morning" ? 0 : 7) + (state.doctor.length % 5);
+    const onlyDiscreet = document.getElementById("show-discreet").checked || state.privateMode;
+    let idx = 0;
+    for (let m = start; m + per <= end; m += per, idx++) {
+      const first = m === start, last = m + per * 2 > end;
+      const discreet = first || last;
+      if (onlyDiscreet && !discreet) continue;
+      const booked = ((idx * 7 + seed) % 5 === 0) || (isToday && m <= nowMins + 20);
+      const tokenNo = idx + 1;
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "slot" + (discreet ? " slot--discreet" : ""); b.setAttribute("aria-pressed", String(state.slot === m && state.slotDay === state.day.toDateString() && state.slotSession === state.session));
+      b.innerHTML = fmt(m) + (discreet ? "<small>quiet</small>" : "");
+      if (booked) { b.disabled = true; b.title = "Already booked"; }
+      b.addEventListener("click", () => {
+        state.slot = m; state.slotDay = state.day.toDateString(); state.slotSession = state.session; state.token = tokenNo; state.per = per;
+        el.querySelectorAll(".slot").forEach((x) => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true");
+        document.getElementById("slot-err").hidden = true;
+        const when = DAYS[state.day.getDay()] + " " + state.day.getDate() + " " + MONTHS[state.day.getMonth()] + ", " + fmt(m);
+        state.when = when; sum("when", when); sum("token", "#" + String(state.token).padStart(2, "0") + " · arrive by " + fmt(m - 10));
+      });
+      el.appendChild(b);
+    }
+    if (!el.children.length) el.innerHTML = '<p class="muted small">No slots left in this session. Try the other session or the next day.</p>';
+  }
+
+  // private mode
+  const pm = document.getElementById("private-mode");
+  pm.addEventListener("change", () => {
+    state.privateMode = pm.checked; document.body.classList.toggle("is-private", pm.checked);
+    document.getElementById("name-label").textContent = pm.checked ? "First name or alias" : "Full name";
+    document.getElementById("name").placeholder = pm.checked ? "Any name you like, e.g. R." : "As on your ID, or any name you prefer";
+    document.getElementById("consent-wa").checked = !pm.checked;
+    renderSlots();
+  });
+  // deep link #private switches it on
+  function checkHash() { if (location.hash === "#private" && !pm.checked) { pm.checked = true; pm.dispatchEvent(new Event("change")); show(5); } }
+  checkHash(); window.addEventListener("hashchange", checkHash);
+
+  // attached self-check result
+  try {
+    const raw = sessionStorage.getItem("kiran.selfcheck");
+    if (raw) { const r = JSON.parse(raw); document.getElementById("attach-wrap").hidden = false; document.getElementById("attach-text").textContent = r.tool + ": " + r.score + " (" + r.band + "), " + r.date + ". The doctor sees this before your visit."; state.attach = r; }
+  } catch (e) { /* ignore */ }
+
+  // navigation
+  document.querySelectorAll("[data-next]").forEach((b) => b.addEventListener("click", () => {
+    if (step === 4 && state.slot == null) { document.getElementById("slot-err").hidden = false; return; }
+    if (step === 5) {
+      const phone = document.getElementById("phone").value.replace(/\D/g, "");
+      if (phone.length < 10) { document.getElementById("phone-err").hidden = false; document.getElementById("phone").focus(); return; }
+      document.getElementById("phone-err").hidden = true; state.phone = document.getElementById("phone").value; state.name = document.getElementById("name").value.trim();
+      renderTicket();
+    }
+    show(step + 1);
+  }));
+  document.querySelectorAll("[data-prev]").forEach((b) => b.addEventListener("click", () => show(step - 1)));
+
+  function renderTicket() {
+    const name = state.name || (state.privateMode ? "Private booking" : "Name not given");
+    const bring = document.getElementById("bring-list");
+    if (state.who === "My child") bring.innerHTML += "<li>School report card or a note from the class teacher</li>";
+    if (state.where === "Video") bring.innerHTML = "<li>A quiet room and a charged phone</li><li>Previous prescriptions nearby, photographed if possible</li><li>Strips of current medicines to show on camera</li>";
+    document.getElementById("ticket").innerHTML =
+      '<div class="flex between" style="flex-wrap:wrap;gap:.6rem"><div class="t-token"><small>Token</small>' + (state.where === "Video" ? "V" : "") + String(state.token).padStart(2, "0") + '</div>'
+      + '<span class="chip chip--gold">' + (state.privateMode ? "Private consult" : state.kind) + '</span></div>'
+      + '<dl class="kv"><dt>Name</dt><dd>' + escapeHtml(name) + '</dd><dt>For</dt><dd>' + state.who + '</dd><dt>Doctor</dt><dd>' + state.doctor + '</dd><dt>When</dt><dd>' + state.when + '</dd>'
+      + '<dt>' + (state.where === "Video" ? "Join" : "Arrive by") + '</dt><dd>' + fmt(state.slot - (state.where === "Video" ? 5 : 10)) + (state.where === "Video" ? " (link on WhatsApp)" : " · Samved Complex, 3rd floor") + '</dd>'
+      + '<dt>Language</dt><dd>' + document.getElementById("language").value + '</dd>'
+      + (state.attach ? '<dt>Attached</dt><dd>' + escapeHtml(state.attach.tool + " " + state.attach.score + " · " + state.attach.band) + '</dd>' : "")
+      + '<dt>Reminders</dt><dd>' + (document.getElementById("consent-wa").checked ? "WhatsApp, the evening before and one hour before" : "None (you chose no messages)") + '</dd></dl>';
+  }
+  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+  document.getElementById("confirm").addEventListener("click", () => {
+    document.getElementById("done-when").textContent = state.when;
+    document.getElementById("done-phone").textContent = state.phone;
+    show(7); toast("Booking confirmed (demo)");
+  });
+})();
+</script>
+</body>
+</html>

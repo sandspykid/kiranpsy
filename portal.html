@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Care · Kiran Neuro-Psychiatry Care</title>
+<meta name="description" content="My Care is the patient portal of Kiran Neuro-Psychiatry Care: next visit, medicines with reminders, two-minute check-ins, trends, reports, messages and Family Circle.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='26' r='9' fill='%23E3A23A'/%3E%3Cpath d='M20 4v7M8.3 9.3l4.9 4.9M31.7 9.3l-4.9 4.9M3 20h7M30 20h7' stroke='%23122B33' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600;700&family=Mukta+Vaani:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .portal-head { background: var(--night); color: var(--on-night); padding-block: 1.6rem; position: relative; overflow: hidden; }
+  .portal-head::after { content: ""; position: absolute; inset: auto 0 0 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold) 40%, var(--rose) 70%, transparent); }
+  .portal-head .wrap { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
+  .portal-head h1 { font-size: var(--step-3); color: var(--on-night); }
+  .portal-head .sub { color: var(--on-night-muted); font-size: .9rem; }
+  .med { display: grid; grid-template-columns: 44px minmax(0,1fr) auto; gap: .8rem; align-items: center; padding: .8rem .9rem; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  .med .pill { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--gold-soft); color: var(--gold-text); font-weight: 800; font-size: .72rem; }
+  .med b { display: block; font-size: .95rem; }
+  .med span { font-size: .8rem; color: var(--muted); display: block; }
+  .med .gu { font-family: var(--font-gu); color: var(--ink-2); font-size: .9rem; }
+  .taken { border: 1.5px solid var(--line-strong); background: var(--surface); border-radius: 999px; padding: .4rem .8rem; font-weight: 700; font-size: .8rem; color: var(--ink-2); white-space: nowrap; }
+  .taken[aria-pressed="true"] { background: var(--sage); border-color: var(--sage); color: #fff; }
+  .mood-scale { display: grid; grid-template-columns: repeat(10, minmax(0,1fr)); gap: .3rem; }
+  .mood-scale label { border: 1.5px solid var(--line); border-radius: 8px; padding: .5rem 0; text-align: center; font-weight: 700; font-size: .85rem; cursor: pointer; background: var(--surface); font-variant-numeric: tabular-nums; }
+  .mood-scale label:has(input:checked) { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .mood-scale input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .doc-row { display: grid; grid-template-columns: 40px minmax(0,1fr) auto; gap: .8rem; align-items: center; padding: .8rem .9rem; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  .doc-row .d-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--bg-2); display: grid; place-items: center; color: var(--ink-2); }
+  .doc-row .d-icon svg { width: 20px; height: 20px; }
+  .doc-row b { display: block; font-size: .92rem; } .doc-row span { font-size: .8rem; color: var(--muted); }
+  .thread { display: grid; gap: .5rem; }
+  .thread .msg { max-width: 92%; }
+  .seiz { font-size: .88rem; }
+  .cg { display: grid; grid-template-columns: 56px 1fr; gap: .9rem; align-items: center; }
+  @media (max-width: 600px) { .mood-scale { grid-template-columns: repeat(5, minmax(0,1fr)); } }
+</style>
+</head>
+<body data-page="portal" data-no-fab>
+<div id="site-header"></div>
+
+<main>
+  <section class="portal-head dark-head">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow" style="margin-bottom:.4rem">My Care · patient portal · <span style="font-weight:600;letter-spacing:0;text-transform:none">sample account</span></p>
+        <h1>Good evening, Meera.</h1>
+        <p class="sub">Next visit Thursday 4:20 pm with Dr. Parmar · Day 42 of your plan · check-in streak 6 days</p>
+      </div>
+      <div class="cluster">
+        <a class="btn btn--primary btn--sm" href="saathi.html">Ask Saathi</a>
+        <a class="btn btn--ghost btn--sm" href="deaddiction.html#sos">Craving SOS</a>
+        <a class="btn btn--ghost btn--sm" href="emergency.html" style="border-color:var(--crimson);color:var(--on-night)">Emergency</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <p class="small muted mb-2">This is a demonstration with a sample patient. Nothing here is stored or sent. In the live portal you sign in with your mobile number and a one-time code.</p>
+      <div class="console">
+        <nav class="side-nav" aria-label="My Care sections">
+          <button type="button" data-view="today" aria-current="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2"/></svg>Today</button>
+          <button type="button" data-view="meds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>Medicines<span class="badge badge--sage">2</span></button>
+          <button type="button" data-view="journal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12l4 4v12H4z"/><path d="M8 12h8M8 16h5"/></svg>Check-in &amp; diary</button>
+          <button type="button" data-view="trends"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>My trends</button>
+          <button type="button" data-view="docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6"/></svg>Prescriptions &amp; reports<span class="badge">1</span></button>
+          <button type="button" data-view="messages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/></svg>Messages</button>
+          <button type="button" data-view="family"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="10" r="2.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M14 20a4 4 0 0 1 7.5-2"/></svg>Family Circle</button>
+          <button type="button" data-view="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg>Rights &amp; settings</button>
+        </nav>
+
+        <div class="minw0">
+          <!-- TODAY -->
+          <section class="view active" id="today">
+            <div class="grid grid-2">
+              <div class="card card--lift">
+                <div class="flex between"><span class="chip chip--gold">Next visit</span><span class="small muted">Token 07</span></div>
+                <h3 class="mt-2">Thursday, 4:20 pm</h3>
+                <p class="ink-2 small">Dr. Keyur Parmar · in the clinic · arrive by 4:10 pm · Samved Complex, 3rd floor</p>
+                <p class="small mt-2"><b>Before the visit:</b> your two-minute check-in is due Wednesday evening, so the doctor sees the trend. Saathi has one open question for you about sleep.</p>
+                <div class="cluster mt-2"><a class="btn btn--sm btn--primary" href="saathi.html">Prepare with Saathi</a><button type="button" class="btn btn--sm btn--ghost" data-toast="Reply 'reschedule' on WhatsApp, or pick a new slot in Book a visit.">Reschedule</button></div>
+              </div>
+              <div class="card">
+                <div class="flex between"><h4>Tonight's medicines</h4><span class="small muted">Reminder 9:00 pm on WhatsApp</span></div>
+                <div class="stack-sm mt-2" id="today-meds">
+                  <div class="med"><span class="pill">PM</span><div><b>Escitalopram</b><span>After dinner · for mood and anxiety</span><span class="gu" lang="gu">જમ્યા પછી, રાત્રે</span></div><button type="button" class="taken" aria-pressed="false">Taken</button></div>
+                  <div class="med"><span class="pill">PM</span><div><b>Clonazepam</b><span>Bedtime · for sleep, tapering this week</span><span class="gu" lang="gu">સૂતા પહેલાં</span></div><button type="button" class="taken" aria-pressed="false">Taken</button></div>
+                </div>
+                <p class="help mt-2">Missed one? Ask Saathi what to do; it reads your prescription.</p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="flex between" style="flex-wrap:wrap;gap:.5rem"><h4>Two-minute check-in</h4><span class="chip chip--sage">Streak · 6 days</span></div>
+              <form id="checkin" class="stack mt-2">
+                <div>
+                  <p class="small ink-2 mb-2"><b>How was your mood today?</b> 1 is the lowest, 10 the best.</p>
+                  <div class="mood-scale" role="radiogroup" aria-label="Mood 1 to 10">
+                    <label><input type="radio" name="mood" value="1">1</label><label><input type="radio" name="mood" value="2">2</label><label><input type="radio" name="mood" value="3">3</label><label><input type="radio" name="mood" value="4">4</label><label><input type="radio" name="mood" value="5">5</label><label><input type="radio" name="mood" value="6" checked>6</label><label><input type="radio" name="mood" value="7">7</label><label><input type="radio" name="mood" value="8">8</label><label><input type="radio" name="mood" value="9">9</label><label><input type="radio" name="mood" value="10">10</label>
+                  </div>
+                </div>
+                <div class="grid grid-3">
+                  <label class="field">Hours slept last night<input type="number" id="sleep-h" min="0" max="14" step="0.5" value="6"></label>
+                  <label class="field">Took all medicines yesterday?<select id="adh"><option>Yes</option><option>Missed one</option><option>Missed more</option></select></label>
+                  <label class="field">Anything the doctor should know? (optional)<input type="text" id="note" placeholder="e.g. headache in the mornings"></label>
+                </div>
+                <div class="cluster"><button type="submit" class="btn btn--primary">Save check-in</button><span class="help">Takes 40 seconds. Your doctor sees it before Thursday.</span></div>
+              </form>
+            </div>
+            <div class="grid grid-3">
+              <div class="card card--flat"><h4>Your plan, in short</h4><p class="small ink-2 mt-1">From the last visit: escitalopram continues; clonazepam tapers to zero by Thursday; walk 20 minutes in the morning; no caffeine after 4 pm. Goal for this month: back to the office five days a week.</p><p class="small mt-2" lang="gu">તમારી યોજના: દવા ચાલુ, સવારે 20 મિનિટ ચાલવું, 4 વાગ્યા પછી ચા-કોફી નહીં.</p></div>
+              <div class="card card--flat"><h4>Refill</h4><p class="small ink-2 mt-1">Escitalopram runs out on 14 October. Request a refill now and collect from the clinic or any chemist with the e-prescription.</p><button type="button" class="btn btn--sm btn--ghost mt-2" data-toast="Refill request sent. The doctor approves it within one clinic session; you get the e-prescription on WhatsApp.">Request refill</button></div>
+              <div class="card card--flat"><h4>Something is wrong tonight</h4><p class="small ink-2 mt-1">Panic, no sleep for days, thoughts you cannot control: do not wait for Thursday.</p><div class="cluster mt-2"><a class="btn btn--sm btn--danger" href="emergency.html">Emergency guide</a><a class="btn btn--sm btn--ghost num" href="tel:+918758299921">Call the clinic</a></div></div>
+            </div>
+          </section>
+
+          <!-- MEDICINES -->
+          <section class="view" id="meds">
+            <div class="section-head" style="margin-bottom:.5rem"><h2 style="font-size:var(--step-3)">Medicines</h2><p class="muted">Your current prescription, explained line by line. Reminders go out on WhatsApp in Gujarati.</p></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Medicine</th><th>When</th><th>What it is for</th><th>In Gujarati</th><th>Until</th></tr></thead>
+                <tbody>
+                  <tr><td><b>Escitalopram</b></td><td>Night, after dinner</td><td>Low mood and anxiety. Works over 4-6 weeks.</td><td lang="gu">જમ્યા પછી રાત્રે એક ગોળી</td><td>Review Thursday</td></tr>
+                  <tr><td><b>Clonazepam</b></td><td>Bedtime</td><td>Sleep and panic while the first medicine starts. Tapering.</td><td lang="gu">સૂતા પહેલાં, આ અઠવાડિયે અડધી</td><td>Stops Thursday</td></tr>
+                  <tr><td><b>Vitamin B12</b></td><td>Morning</td><td>Level was low on 10 Sep test.</td><td lang="gu">સવારે એક</td><td>3 months</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="grid grid-2">
+              <div class="card">
+                <h4>This week</h4>
+                <p class="small muted">Green is taken, red is missed. Your doctor sees this pattern, not a lecture.</p>
+                <div class="stack-sm mt-2">
+                  <div class="flex between"><span class="small"><b>Escitalopram</b></span><div class="ticks"><i class="on">M</i><i class="on">T</i><i class="on">W</i><i class="miss">T</i><i class="on">F</i><i class="on">S</i><i>S</i></div></div>
+                  <div class="flex between"><span class="small"><b>Clonazepam</b></span><div class="ticks"><i class="on">M</i><i class="on">T</i><i class="on">W</i><i class="on">T</i><i class="on">F</i><i class="on">S</i><i>S</i></div></div>
+                  <div class="flex between"><span class="small"><b>Vitamin B12</b></span><div class="ticks"><i class="on">M</i><i class="miss">T</i><i class="on">W</i><i class="on">T</i><i class="miss">F</i><i class="on">S</i><i>S</i></div></div>
+                </div>
+                <p class="small mt-2">Adherence this week: <b>86%</b>. One missed night of escitalopram is not a problem; three in a row is worth a message.</p>
+              </div>
+              <div class="card">
+                <h4>Reminders</h4>
+                <div class="stack-sm mt-2">
+                  <label class="switch"><input type="checkbox" checked><span>WhatsApp reminder at 9:00 pm</span></label>
+                  <label class="switch"><input type="checkbox" checked><span>Morning reminder at 8:00 am</span></label>
+                  <label class="switch"><input type="checkbox"><span>Also remind my caregiver (Family Circle)</span></label>
+                  <label class="switch"><input type="checkbox" checked><span>Refill alert five days before I run out</span></label>
+                </div>
+                <form class="stack-sm mt-3" data-demo="Refill request sent. The doctor approves it within one clinic session.">
+                  <label class="field">Request a refill<select><option>Escitalopram</option><option>Vitamin B12</option></select></label>
+                  <button type="submit" class="btn btn--sm btn--ghost">Send refill request</button>
+                </form>
+              </div>
+            </div>
+            <div class="callout callout--info"><b>Questions about a medicine?</b>Saathi reads your prescription and explains it, in Gujarati if you like. It never changes a dose. <a href="saathi.html">Ask Saathi</a></div>
+          </section>
+
+          <!-- JOURNAL -->
+          <section class="view" id="journal">
+            <div class="section-head" style="margin-bottom:.5rem"><h2 style="font-size:var(--step-3)">Check-ins and diaries</h2><p class="muted">Short entries, in your words. Before each visit Saathi summarises them for the doctor, and you see the summary first.</p></div>
+            <div class="grid grid-2">
+              <div class="card">
+                <h4>Recent check-ins</h4>
+                <div class="table-wrap mt-2"><table id="checkin-table"><thead><tr><th>Day</th><th class="num">Mood</th><th class="num">Sleep</th><th>Medicines</th><th>Note</th></tr></thead><tbody>
+                  <tr><td>Tue</td><td class="num">6</td><td class="num">6.0</td><td>All</td><td class="muted">Walked in the morning</td></tr>
+                  <tr><td>Mon</td><td class="num">5</td><td class="num">5.5</td><td>All</td><td class="muted">Office was stressful</td></tr>
+                  <tr><td>Sun</td><td class="num">7</td><td class="num">7.0</td><td>All</td><td class="muted"></td></tr>
+                  <tr><td>Sat</td><td class="num">6</td><td class="num">6.5</td><td>Missed one</td><td class="muted">Forgot escitalopram</td></tr>
+                  <tr><td>Fri</td><td class="num">4</td><td class="num">4.0</td><td>All</td><td class="muted">Woke at 3 am twice</td></tr>
+                </tbody></table></div>
+                <div class="callout mt-3"><b>Saathi's summary for Thursday <span class="note"><span class="ai">AI draft</span></span></b><span class="small">Mood steady at 5-7 with one dip on Friday after two nights of early waking. All medicines taken except one missed escitalopram on Saturday. Morning walks on four of seven days. Patient reports office stress on Mondays. No risk language in any entry.</span></div>
+              </div>
+              <div class="stack">
+                <div class="card">
+                  <h4>Seizure diary</h4>
+                  <p class="small muted">For patients of the EEG and epilepsy clinic. Each entry helps the doctor adjust treatment.</p>
+                  <div class="table-wrap mt-2"><table class="seiz" id="seiz-table"><thead><tr><th>Date</th><th>Time</th><th>Lasted</th><th>Possible trigger</th></tr></thead><tbody>
+                    <tr><td>28 Sep</td><td>06:40</td><td>~1 min</td><td>Slept 4 hours</td></tr>
+                    <tr><td>09 Sep</td><td>23:10</td><td>~2 min</td><td>Missed evening dose</td></tr>
+                  </tbody></table></div>
+                  <form class="grid grid-2 mt-2" id="seiz-form" style="gap:.5rem">
+                    <label class="field">Date<input type="date" id="sz-date"></label>
+                    <label class="field">Time<input type="time" id="sz-time"></label>
+                    <label class="field">Lasted<select id="sz-dur"><option>Under 1 min</option><option>1-2 min</option><option>2-5 min</option><option>Over 5 min</option></select></label>
+                    <label class="field">Trigger<select id="sz-trig"><option>Not sure</option><option>Poor sleep</option><option>Missed dose</option><option>Fever or illness</option><option>Flashing lights</option><option>Alcohol</option></select></label>
+                    <div class="cluster" style="grid-column:1/-1"><button type="submit" class="btn btn--sm btn--ghost">Add entry</button><span class="help">Over 5 minutes, or one after another: call 108.</span></div>
+                  </form>
+                </div>
+                <div class="card">
+                  <h4>A note in your words</h4>
+                  <form class="stack-sm mt-2" data-demo="Saved. It will be in Thursday's summary, and you can edit it before the doctor sees it.">
+                    <label class="field"><span class="sr-only">Note</span><textarea placeholder="Anything you want to remember to tell the doctor. Gujarati is fine."></textarea></label>
+                    <button type="submit" class="btn btn--sm btn--ghost">Save note</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TRENDS -->
+          <section class="view" id="trends">
+            <div class="section-head" style="margin-bottom:.5rem"><h2 style="font-size:var(--step-3)">My trends</h2><p class="muted">The same charts your doctor sees. Scores going down on these scales means getting better.</p></div>
+            <div class="grid grid-2">
+              <div class="card">
+                <div class="flex between" style="flex-wrap:wrap;gap:.5rem"><div><b>PHQ-9 · mood</b><div class="small muted">At each visit</div></div><span class="chip chip--sage">19 → 8 · improving</span></div>
+                <div id="c-phq" class="mt-2"></div>
+                <div class="legend mt-2"><span><i></i>Your score</span><span><i style="background:var(--sage);opacity:.5"></i>Remission 0-4</span><span><i style="background:var(--amber);opacity:.7"></i>Treatment target below 10</span></div>
+              </div>
+              <div class="card">
+                <div class="flex between" style="flex-wrap:wrap;gap:.5rem"><div><b>GAD-7 · anxiety</b><div class="small muted">At each visit</div></div><span class="chip chip--sage">16 → 6 · improving</span></div>
+                <div id="c-gad" class="mt-2"></div>
+                <div class="legend mt-2"><span><i></i>Your score</span><span><i style="background:var(--sage);opacity:.5"></i>Minimal 0-4</span></div>
+              </div>
+              <div class="card">
+                <div class="flex between" style="flex-wrap:wrap;gap:.5rem"><div><b>Sleep · hours</b><div class="small muted">Last 14 nights, from your check-ins</div></div><span class="chip">Avg 6.1 h</span></div>
+                <div id="c-sleep" class="mt-2"></div>
+              </div>
+              <div class="card">
+                <div class="flex between" style="flex-wrap:wrap;gap:.5rem"><div><b>Mood · daily check-in</b><div class="small muted">Last 14 days, 1-10</div></div><span class="chip">Avg 5.9</span></div>
+                <div id="c-mood" class="mt-2"></div>
+              </div>
+            </div>
+            <div class="callout callout--good"><b>What this means</b><span class="small">Your mood and anxiety scores have fallen into the mild range over six weeks, which is the expected response to the plan. Sleep is the lagging measure; the Friday dip matches two nights of early waking. The doctor will likely review sleep first on Thursday.</span></div>
+          </section>
+
+          <!-- DOCS -->
+          <section class="view" id="docs">
+            <div class="section-head" style="margin-bottom:.5rem"><h2 style="font-size:var(--step-3)">Prescriptions and reports</h2><p class="muted">Everything the clinic has given you, in one place. Flagged items are explained by Saathi and reviewed by the doctor.</p></div>
+            <div class="list">
+              <div class="doc-row"><span class="d-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></span><div><b>Prescription · 12 Sep 2026</b><span>Dr. Keyur Parmar · 3 medicines · Gujarati instructions · valid e-prescription</span></div><button type="button" class="btn btn--sm btn--ghost" data-toast="Opens the signed PDF in the live portal.">Open</button></div>
+              <div class="doc-row" style="border-left:4px solid var(--amber)"><span class="d-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6"/></svg></span><div><b>Blood tests · 10 Sep 2026</b><span>TSH 7.8 flagged <span class="chip chip--amber">needs review</span> · B12 160 flagged · others normal</span></div><div class="cluster"><a class="btn btn--sm btn--ghost" href="saathi.html">Ask Saathi</a></div></div>
+              <div class="doc-row"><span class="d-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2-6 3 12 3-9 2 3h6"/></svg></span><div><b>EEG report · 2 Aug 2026</b><span>Recorded at the clinic · reviewed by Dr. Zala · no epileptiform activity</span></div><button type="button" class="btn btn--sm btn--ghost" data-toast="Opens the report in the live portal.">Open</button></div>
+              <div class="doc-row"><span class="d-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 12h8M12 8v8"/></svg></span><div><b>Add a report from another lab or hospital</b><span>Photo or PDF. Saathi drafts a plain-language summary; the doctor reviews it before it reaches you.</span></div><label class="btn btn--sm btn--ghost" for="upload">Upload<input type="file" id="upload" class="sr-only" accept="image/*,.pdf"></label></div>
+            </div>
+            <div class="callout callout--info"><b>ABHA</b><span class="small">Your records can be linked to your Ayushman Bharat Health Account so any hospital you choose can see them. Optional, and you can unlink any time. <a href="rights.html#privacy">How linking works</a></span></div>
+          </section>
+
+          <!-- MESSAGES -->
+          <section class="view" id="messages">
+            <div class="section-head" style="margin-bottom:.5rem"><h2 style="font-size:var(--step-3)">Messages</h2><p class="muted">Reception answers during clinic hours. Every message passes the safety gate first, so urgent ones are seen at once.</p></div>
+            <div class="card">
+              <div class="thread" id="thread">
+                <div class="msg msg--sys">Monday 10:12 · Reception</div>
+                <div class="msg msg--bot">Namaste Meera, your Thursday 4:20 pm visit with Dr. Parmar is confirmed. Token 07, arrive by 4:10. Reply "reschedule" to change it.</div>
+                <div class="msg msg--user">Can I bring my mother in with me this time?</div>
+                <div class="msg msg--bot">Of course. Tell the doctor at the start whether you want her in the room for the whole visit or part of it. Both are fine.</div>
+                <div class="msg msg--sys">Tuesday 18:40 · Saathi</div>
+                <div class="msg msg--bot">Your check-in is saved. One question before Thursday: on the nights you woke at 3 am, did you fall back asleep? You can answer here or tell the doctor.</div>
+              </div>
+              <form class="chat-input mt-3" id="msg-form" style="border-radius:12px;border:1px solid var(--line)">
+                <label class="sr-only" for="msg-text">Message</label>
+                <input type="text" id="msg-text" placeholder="Write to the clinic…">
+                <button type="submit" class="btn btn--primary btn--sm">Send</button>
+              </form>
+            </div>
+          </section>
+
+          <!-- FAMILY -->
+          <section class="view" id="family">
+            <div class="section-head" style="margin-bottom:.5rem"><h2 style="font-size:var(--step-3)">Family Circle</h2><p class="muted">You decide who helps, and what they see. Switch it off any time; nobody is told why.</p></div>
+            <div class="grid grid-2">
+              <div class="card card--lift">
+                <label class="switch"><input type="checkbox" id="fc-toggle" checked><span>Share with my caregiver</span></label>
+                <div class="cg mt-3">
+                  <div class="avatar avatar--sm" style="width:56px;height:56px;border-radius:16px" aria-hidden="true">R</div>
+                  <div><b>Rameshbhai P.</b><div class="small muted">Father · +91 98250 xxxxx · Gujarati</div><div class="small mt-1"><span class="chip chip--sage">Red-flag guide sent</span></div></div>
+                </div>
+                <h4 class="mt-3">He can see</h4>
+                <ul class="check-list small mt-1">
+                  <li>Tonight's medicines and whether they were marked taken</li>
+                  <li>The next appointment and token</li>
+                  <li>The red-flag guide: what to watch for, what to do tonight</li>
+                  <li>Emergency numbers, and a button that calls the clinic as your caregiver</li>
+                </ul>
+                <h4 class="mt-3">He cannot see</h4>
+                <ul class="check-list check-list--x small mt-1">
+                  <li>Your check-in notes, diary or messages</li>
+                  <li>Your scores or the doctor's notes</li>
+                  <li>Anything you discussed with the doctor in private</li>
+                </ul>
+              </div>
+              <div class="stack">
+                <div class="card">
+                  <h4>Invite another person</h4>
+                  <form class="stack-sm mt-2" data-demo="Invitation sent on WhatsApp. They see only what you ticked.">
+                    <label class="field">Name<input type="text" placeholder="e.g. Hitesh"></label>
+                    <label class="field">Relationship<select><option>Spouse</option><option>Parent</option><option>Sibling</option><option>Son or daughter</option><option>Friend</option></select></label>
+                    <label class="field">Mobile<input type="tel" placeholder="98xxx xxxxx"></label>
+                    <div class="stack-sm">
+                      <label class="switch"><input type="checkbox" checked><span>Medicines and reminders</span></label>
+                      <label class="switch"><input type="checkbox" checked><span>Appointments</span></label>
+                      <label class="switch"><input type="checkbox"><span>Let them send a message to the clinic about me</span></label>
+                    </div>
+                    <button type="submit" class="btn btn--sm btn--primary">Send invitation</button>
+                  </form>
+                </div>
+                <div class="card card--flat">
+                  <h4>Nominated Representative</h4>
+                  <p class="small ink-2 mt-1">Under the Mental Healthcare Act 2017 you can name one person to represent your wishes if you are ever too unwell to speak for yourself. This is separate from Family Circle, and it is yours to set.</p>
+                  <a class="link-arrow small mt-2" href="rights.html#nominated-representative">Name a representative</a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SETTINGS -->
+          <section class="view" id="settings">
+            <div class="section-head" style="margin-bottom:.5rem"><h2 style="font-size:var(--step-3)">Rights and settings</h2><p class="muted">Your data, your language, your directives.</p></div>
+            <div class="grid grid-2">
+              <div class="card">
+                <h4>Language and privacy</h4>
+                <div class="stack-sm mt-2">
+                  <label class="field">Portal language<select><option>ગુજરાતી</option><option>हिन्दी</option><option selected>English</option></select></label>
+                  <label class="switch"><input type="checkbox" checked><span>Hide the clinic name in WhatsApp messages</span></label>
+                  <label class="switch"><input type="checkbox" checked><span>Ask for a code every time I open My Care</span></label>
+                  <label class="switch"><input type="checkbox"><span>Link my ABHA number</span></label>
+                </div>
+                <p class="help mt-2">Quick exit (top bar, or Shift+Esc) replaces this page with a weather report. It does not clear browser history; use private browsing on a shared phone.</p>
+              </div>
+              <div class="card">
+                <h4>Your records, your rights</h4>
+                <ul class="check-list small mt-2">
+                  <li><b>Advance Directive:</b> not yet made. <a href="rights.html#advance-directive">Build one in ten minutes</a></li>
+                  <li><b>Nominated Representative:</b> not yet named. <a href="rights.html#nominated-representative">Name one</a></li>
+                  <li><b>Access your full record</b> under the Mental Healthcare Act 2017</li>
+                  <li><b>Erase your data</b> under the DPDP Act 2023, except what the law requires the clinic to keep</li>
+                </ul>
+                <div class="cluster mt-3"><button type="button" class="btn btn--sm btn--ghost" data-toast="A copy of your record is prepared and sent to your phone within 7 days.">Request my record</button><button type="button" class="btn btn--sm btn--ghost" data-toast="Erasure requests are confirmed by phone before anything is deleted.">Request erasure</button></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="assets/i18n.js"></script>
+<script src="assets/site.js"></script>
+<script>
+(function () {
+  const moodSeries = [5, 6, 4, 6, 7, 5, 6, 4, 6, 7, 5, 6, 6, 6];
+  const sleepSeries = [5.5, 6, 4.5, 6.5, 7, 6, 6, 4, 6.5, 7, 5.5, 6.5, 6, 6];
+  const nav = document.querySelectorAll(".side-nav [data-view]");
+  function showView(name, push) {
+    nav.forEach((b) => b.setAttribute("aria-current", String(b.dataset.view === name)));
+    document.querySelectorAll(".view").forEach((v) => v.classList.toggle("active", v.id === name));
+    if (push) { try { history.replaceState(null, "", "#" + name); } catch (e) { /* ignore */ } }
+    if (name === "trends") drawCharts();
+  }
+  nav.forEach((b) => b.addEventListener("click", () => { showView(b.dataset.view, true); if (window.innerWidth < 960) document.getElementById(b.dataset.view).scrollIntoView({ behavior: "smooth", block: "start" }); }));
+  const hash = (location.hash || "").replace("#", "");
+  if (["today", "meds", "journal", "trends", "docs", "messages", "family", "settings"].includes(hash)) showView(hash);
+
+  document.querySelectorAll("[data-toast]").forEach((b) => b.addEventListener("click", () => toast(b.getAttribute("data-toast"))));
+  document.querySelectorAll(".taken").forEach((b) => b.addEventListener("click", () => { const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", String(on)); b.textContent = on ? "Taken ✓" : "Taken"; if (on) toast("Marked taken. Your caregiver's view updates too."); }));
+
+  document.getElementById("checkin").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const mood = document.querySelector('input[name="mood"]:checked').value;
+    const sleep = document.getElementById("sleep-h").value;
+    const adh = document.getElementById("adh").value;
+    const note = document.getElementById("note").value.trim();
+    const tr = document.createElement("tr");
+    tr.innerHTML = "<td>Today</td><td class='num'>" + mood + "</td><td class='num'>" + Number(sleep).toFixed(1) + "</td><td>" + adh + "</td><td class='muted'>" + note.replace(/[<>&]/g, "") + "</td>";
+    document.querySelector("#checkin-table tbody").prepend(tr);
+    moodSeries.push(Number(mood)); sleepSeries.push(Number(sleep)); moodSeries.shift(); sleepSeries.shift();
+    toast("Check-in saved. Streak: 7 days.");
+    document.querySelector(".chip.chip--sage").textContent = "Streak · 7 days";
+  });
+
+  document.getElementById("seiz-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const d = document.getElementById("sz-date").value, t = document.getElementById("sz-time").value;
+    if (!d || !t) { toast("Add the date and time first."); return; }
+    const tr = document.createElement("tr");
+    const dt = new Date(d + "T00:00"); const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    tr.innerHTML = "<td>" + dt.getDate() + " " + MON[dt.getMonth()] + "</td><td>" + t + "</td><td>" + document.getElementById("sz-dur").value + "</td><td>" + document.getElementById("sz-trig").value + "</td>";
+    document.querySelector("#seiz-table tbody").prepend(tr);
+    toast(document.getElementById("sz-dur").value === "Over 5 min" ? "Saved. A seizure over 5 minutes is an emergency: call 108." : "Saved to your seizure diary.");
+  });
+
+  document.getElementById("msg-form").addEventListener("submit", (e) => {
+    e.preventDefault(); const i = document.getElementById("msg-text"); const v = i.value.trim(); if (!v) return;
+    const d = document.createElement("div"); d.className = "msg msg--user"; d.textContent = v; document.getElementById("thread").appendChild(d); i.value = "";
+    setTimeout(() => { const r = document.createElement("div"); r.className = "msg msg--bot"; r.textContent = /urgent|emergency|unsafe|die|suicid/i.test(v) ? "This sounds urgent. The on-call doctor has been alerted and will call you now. If you are in immediate danger call 112 or 108." : "Received. Reception replies during clinic hours, usually within the session. If it cannot wait, call +91 87582 99921."; document.getElementById("thread").appendChild(r); }, 900);
+  });
+
+  function drawCharts() {
+    document.getElementById("c-phq").innerHTML = KIRAN_CHART.line({ series: [{ values: [19, 15, 11, 8], cls: "line", area: "area", label: "PHQ-9" }], labels: ["Visit 1", "Wk 2", "Wk 4", "Wk 6"], max: 27, ticks: [0, 5, 10, 15, 20, 27], threshold: 10, bands: [{ from: 0, to: 4, cls: "band-ok" }], aria: "PHQ-9 falling from 19 to 8 over four visits" });
+    document.getElementById("c-gad").innerHTML = KIRAN_CHART.line({ series: [{ values: [16, 13, 9, 6], cls: "line", area: "area", label: "GAD-7" }], labels: ["Visit 1", "Wk 2", "Wk 4", "Wk 6"], max: 21, ticks: [0, 5, 10, 15, 21], bands: [{ from: 0, to: 4, cls: "band-ok" }], aria: "GAD-7 falling from 16 to 6 over four visits" });
+    document.getElementById("c-sleep").innerHTML = KIRAN_CHART.bars({ values: sleepSeries, labels: ["", "", "", "", "", "", "", "", "", "", "", "", "", "Today"], max: 10, aria: "Hours slept each of the last 14 nights", cls: sleepSeries.map((v) => v < 5 ? "bar--muted" : "") });
+    document.getElementById("c-mood").innerHTML = KIRAN_CHART.line({ series: [{ values: moodSeries, cls: "line line--gold", label: "Mood" }], labels: ["14d", "", "12d", "", "10d", "", "8d", "", "6d", "", "4d", "", "2d", "Today"], max: 10, ticks: [0, 5, 10], aria: "Daily mood on a 1 to 10 scale over 14 days" });
+  }
+  if (document.getElementById("trends").classList.contains("active")) drawCharts();
+})();
+</script>
+</body>
+</html>

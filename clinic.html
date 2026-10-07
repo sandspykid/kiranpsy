@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clinic console · Kiran Neuro-Psychiatry Care</title>
+<meta name="description" content="The doctor and staff console of Kiran Neuro-Psychiatry Care: today's queue, pre-visit briefs, risk inbox, ambient scribe, prescription composer, follow-ups, EEG and reports, outcomes.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='26' r='9' fill='%23E3A23A'/%3E%3Cpath d='M20 4v7M8.3 9.3l4.9 4.9M31.7 9.3l-4.9 4.9M3 20h7M30 20h7' stroke='%23122B33' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600;700&family=Mukta+Vaani:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .console-head { background: var(--night); color: var(--on-night); padding-block: 1.3rem; position: relative; }
+  .console-head::after { content: ""; position: absolute; inset: auto 0 0 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold) 40%, var(--rose) 70%, transparent); }
+  .console-head .wrap { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
+  .console-head h1 { font-size: var(--step-2); color: var(--on-night); }
+  .console-head .sub { color: var(--on-night-muted); font-size: .85rem; }
+  .kpis { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: .8rem; }
+  @media (max-width: 800px) { .kpis { grid-template-columns: 1fr 1fr; } }
+  .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: .8rem .95rem; }
+  .kpi b { display: block; font-family: var(--font-display); font-size: 1.6rem; font-weight: 650; line-height: 1; font-variant-numeric: tabular-nums; }
+  .kpi span { font-size: .78rem; color: var(--muted); font-weight: 600; }
+  .brief { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr); gap: 1rem; }
+  @media (max-width: 900px) { .brief { grid-template-columns: 1fr; } }
+  .brief h4 { font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-family: var(--font-body); font-weight: 700; margin-bottom: .4rem; }
+  .delta { font-weight: 800; font-size: .8rem; }
+  .delta.good { color: var(--sage); } .delta.bad { color: var(--crimson); }
+  .scribe { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 1rem; }
+  @media (max-width: 900px) { .scribe { grid-template-columns: 1fr; } }
+  .transcript { font-size: .88rem; display: grid; gap: .4rem; max-height: 260px; overflow-y: auto; padding-right: .3rem; }
+  .transcript p { padding: .4rem .6rem; border-radius: 8px; background: var(--bg-2); }
+  .transcript p b { color: var(--gold-text); font-size: .74rem; letter-spacing: .06em; text-transform: uppercase; margin-right: .4rem; }
+  .transcript .gu { font-family: var(--font-gu); }
+  .note-draft { display: none; }
+  .note-draft.show { display: block; }
+  .cursor::after { content: "▍"; color: var(--gold); animation: blink 1s infinite; }
+  .risk-row { grid-template-columns: auto minmax(0,1fr) auto; }
+  .tmpl { background: var(--bg-2); border-radius: 10px; padding: .7rem .8rem; font-size: .88rem; }
+  .tmpl .gu { font-family: var(--font-gu); display: block; margin-top: .3rem; color: var(--ink-2); }
+</style>
+</head>
+<body data-page="clinic" data-no-fab>
+<div id="site-header"></div>
+
+<main>
+  <section class="console-head dark-head">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow" style="margin-bottom:.3rem">Clinic console · staff demo</p>
+        <h1>Wednesday evening session · Dr. Keyur Parmar</h1>
+        <p class="sub">16:00-19:00 · 2 doctors · 1 EEG · reception desk open · sample data, nothing is real</p>
+      </div>
+      <div class="cluster">
+        <span class="chip" style="background:rgba(234,240,238,.08);color:var(--on-night);border-color:rgba(234,240,238,.2)"><span class="dot dot--live"></span> Queue live</span>
+        <button type="button" class="btn btn--primary btn--sm" id="call-next">Call next token</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="console">
+        <nav class="side-nav" aria-label="Console sections">
+          <button type="button" data-view="queue" aria-current="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Today's queue<span class="badge badge--sage" id="q-badge">5</span></button>
+          <button type="button" data-view="brief"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6M9 14h6M9 17h4"/></svg>Pre-visit brief</button>
+          <button type="button" data-view="risk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.5"/></svg>Risk inbox<span class="badge">2</span></button>
+          <button type="button" data-view="consult"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>Consultation &amp; scribe</button>
+          <button type="button" data-view="followup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v4M16 4v4"/></svg>Follow-ups &amp; relapse watch<span class="badge" style="background:var(--amber)">3</span></button>
+          <button type="button" data-view="eeg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2-6 3 12 3-9 2 3h6"/></svg>EEG &amp; reports</button>
+          <button type="button" data-view="outcomes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>Outcomes</button>
+          <button type="button" data-view="content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4-1 10-10-3-3L5 16z"/><path d="M13 7l3 3"/></svg>Content studio</button>
+        </nav>
+
+        <div class="minw0">
+          <!-- QUEUE -->
+          <section class="view active" id="view-queue">
+            <div class="kpis">
+              <div class="kpi"><b id="k-seen">14</b><span>seen this session</span></div>
+              <div class="kpi"><b id="k-wait">5</b><span>waiting · avg 9 min</span></div>
+              <div class="kpi"><b>2</b><span>video visits at 18:30</span></div>
+              <div class="kpi"><b>1</b><span>no-show so far · nudged</span></div>
+            </div>
+            <div class="toolbar">
+              <div class="pill-tabs" role="tablist" aria-label="Doctor"><button type="button" role="tab" aria-selected="true">Dr. Parmar</button><button type="button" role="tab" aria-selected="false">Dr. Zala</button><button type="button" role="tab" aria-selected="false">EEG room</button></div>
+              <span class="spacer"></span>
+              <button type="button" class="btn btn--sm btn--ghost" data-toast="Walk-in added as token 21, after the next booked patient.">Add walk-in</button>
+              <button type="button" class="btn btn--sm btn--ghost" data-toast="QR check-in link sent to the waiting-room display.">Check-in QR</button>
+            </div>
+            <div class="list" id="queue-list">
+              <div class="row sel" data-token="15"><span class="token">15</span><div><b>Meera P. · 29 · F</b><span>Follow-up · wk 6 · PHQ-9 8 (↓3) · pre-visit brief ready · intake question open</span></div><span class="chip chip--gold">In room</span></div>
+              <div class="row" data-token="16"><span class="token">16</span><div><b>Private consult · alias "R." · 34 · M</b><span>New · sexual health · booked under private mode · discreet slot</span></div><span class="chip chip--sky">Arrived 16:52</span></div>
+              <div class="row flag--warn" data-token="17"><span class="token">17</span><div><b>Jignesh M. · 41 · M</b><span>Quit with Kiran · day 30 · 3 strong cravings this week · Fagerström 7 → 4</span></div><span class="chip chip--sky">Arrived 16:58</span></div>
+              <div class="row" data-token="18"><span class="token">18</span><div><b>Aarav S. · 8 · M (with mother)</b><span>New · child clinic · teacher's Vanderbilt attached · Dr. Zala</span></div><span class="chip">Expected 17:10</span></div>
+              <div class="row flag" data-token="19"><span class="token">19</span><div><b>Rameshbhai P. for son Nikhil · 26 · M</b><span>Urgent · psychosis clinic · stopped medicines 9 days · moved up by on-call</span></div><span class="chip chip--crimson">Priority</span></div>
+              <div class="row" data-token="V1"><span class="token">V1</span><div><b>Kinjal D. · 37 · F · Mahuva</b><span>Video follow-up 18:30 · anxiety clinic · GAD-7 due · link sent</span></div><span class="chip">Video</span></div>
+            </div>
+            <p class="help">Tokens are the order of care, not of arrival. Priority tokens are inserted by the on-call doctor; the queue display in the waiting room and the live queue on the website update at the same moment.</p>
+          </section>
+
+          <!-- BRIEF -->
+          <section class="view" id="view-brief">
+            <div class="flex between" style="flex-wrap:wrap;gap:.6rem">
+              <div><span class="chip chip--gold">Token 15</span> <b style="font-size:1.1rem;margin-left:.4rem">Meera P.</b> <span class="muted small">29 · F · follow-up · week 6 · Gujarati</span></div>
+              <div class="cluster"><button type="button" class="btn btn--sm btn--primary" data-go="consult">Start consultation</button><button type="button" class="btn btn--sm btn--ghost" data-toast="Full record opens in the EHR.">Full record</button></div>
+            </div>
+            <div class="brief">
+              <div class="stack">
+                <div class="card">
+                  <h4>Last plan · 12 Sep</h4>
+                  <p class="small">Escitalopram continued at night. Clonazepam taper to stop by this visit. Morning walk 20 min. No caffeine after 4 pm. Goal: office five days a week. Bloods ordered: TSH, B12.</p>
+                </div>
+                <div class="card">
+                  <h4>Since last visit <span class="note"><span class="ai">AI summary</span></span></h4>
+                  <ul class="small" style="margin:0;padding-left:1.1rem;display:grid;gap:.3rem">
+                    <li>Mood check-ins 4-7, one dip (Fri) after two nights of 3 am waking. <mark>Early waking persists</mark>.</li>
+                    <li>Adherence 86%: one missed escitalopram (Sat), B12 missed twice. Clonazepam taken nightly through taper.</li>
+                    <li>Reports office stress on Mondays; back at work four days this week.</li>
+                    <li>Open question from Saathi: did she fall back asleep after 3 am waking? <mark>Unanswered</mark>.</li>
+                    <li>No risk language in any check-in, note or message.</li>
+                  </ul>
+                  <p class="help mt-2">Drafted from 7 check-ins, 2 notes, 4 messages. Source lines open on click in the live console.</p>
+                </div>
+                <div class="card" style="border-left:4px solid var(--amber)">
+                  <h4>Flagged</h4>
+                  <p class="small"><b>TSH 7.8</b> (10 Sep) above range; <b>B12 160</b> low. Both awaiting your review. Patient asked Saathi about TSH; it explained the test and deferred to you.</p>
+                </div>
+              </div>
+              <div class="stack">
+                <div class="card">
+                  <h4>Scales</h4>
+                  <div class="stack-sm">
+                    <div class="flex between"><span class="small"><b>PHQ-9</b> 19 → 15 → 11 → <b>8</b></span><span class="delta good">↓3</span><span id="sp-phq"></span></div>
+                    <div class="flex between"><span class="small"><b>GAD-7</b> 16 → 13 → 9 → <b>6</b></span><span class="delta good">↓3</span><span id="sp-gad"></span></div>
+                    <div class="flex between"><span class="small"><b>ISI</b> 18 → 16 → <b>14</b></span><span class="delta good">↓2</span><span id="sp-isi"></span></div>
+                  </div>
+                  <p class="help mt-2">Sleep is the lagging measure. Consider reviewing sleep first.</p>
+                </div>
+                <div class="card">
+                  <h4>Adherence · 14 days</h4>
+                  <div class="stack-sm">
+                    <div class="flex between"><span class="small">Escitalopram</span><div class="ticks"><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="miss">·</i><i class="on">·</i><i class="on">·</i><i>·</i></div></div>
+                    <div class="flex between"><span class="small">Clonazepam</span><div class="ticks"><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i class="on">·</i><i>·</i></div></div>
+                  </div>
+                </div>
+                <div class="card card--flat">
+                  <h4>Suggested agenda <span class="note"><span class="ai">AI</span></span></h4>
+                  <ol class="small" style="margin:0;padding-left:1.1rem;display:grid;gap:.25rem"><li>Early waking: ask about alcohol, caffeine, phone in bed; consider ISI item 3</li><li>Confirm clonazepam stopped; rebound anxiety?</li><li>TSH and B12 results; discuss referral or treatment</li><li>Office return: Monday pattern</li><li>Family Circle: father has access; patient wants mother in room today</li></ol>
+                  <p class="help mt-2">Suggestions, not instructions. Edit or ignore.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- RISK -->
+          <section class="view" id="view-risk">
+            <div class="section-head" style="margin-bottom:.3rem"><h2 style="font-size:var(--step-3)">Risk inbox</h2><p class="muted">Every patient message, check-in note and intake answer passes the safety gate. What fires lands here, highest severity first, with the exact words that triggered it.</p></div>
+            <div class="list">
+              <div class="row risk-row flag"><span class="chip chip--crimson">Crisis</span><div><b>Message · 10:41 today · Priya K. · 22 · F</b><span>"I don't see the point of waking up tomorrow." Crisis card shown, Tele-MANAS and clinic numbers given. <b>Dr. Zala called at 10:48</b>: safe, mother with her, visit moved to today 17:40. Logged.</span></div><div class="cluster"><button type="button" class="btn btn--sm btn--ghost" data-toast="Thread opens with the full message and the call log.">Open</button><button type="button" class="btn btn--sm btn--primary" data-toast="Marked handled. Safety plan review added to today's agenda.">Mark handled</button></div></div>
+              <div class="row risk-row flag"><span class="chip chip--crimson">Lab</span><div><b>Report · yesterday · Bhavesh T. · 48 · M · bipolar clinic</b><span>Lithium 1.4 mmol/L on an outside lab report he uploaded. Saathi escalated rather than explained; patient told to call if tremor, vomiting or confusion. No reply yet.</span></div><div class="cluster"><a class="btn btn--sm btn--primary num" href="tel:+919825000000" data-toast="Calling patient (demo).">Call patient</a></div></div>
+              <div class="row risk-row flag--warn"><span class="chip chip--amber">Relapse watch</span><div><b>Pattern · Nikhil P. · 26 · M · psychosis clinic</b><span>Caregiver (father) marked medicines "not taken" 9 days running; no check-ins; sleep "2-3 hours" in the last note. On-call moved him to today's queue as token 19.</span></div><div class="cluster"><button type="button" class="btn btn--sm btn--ghost" data-go="queue">In queue</button></div></div>
+              <div class="row risk-row flag--warn"><span class="chip chip--amber">Intake</span><div><b>Saathi intake · new patient · "R." (private mode) · token 16</b><span>Mentions daily alcohol "to manage" the problem. Flagged for AUDIT at the visit. No crisis language.</span></div><div class="cluster"><button type="button" class="btn btn--sm btn--ghost" data-toast="AUDIT added to the check-in for token 16.">Add AUDIT</button></div></div>
+              <div class="row risk-row"><span class="chip chip--sky">Info</span><div><b>Check-in note · Jignesh M. · Quit with Kiran</b><span>"Slipped once on Sunday at the wedding." Logged as a slip, not a relapse; programme continues. Saathi replied without shaming and scheduled a call.</span></div><div class="cluster"><button type="button" class="btn btn--sm btn--ghost" data-toast="Acknowledged.">Acknowledge</button></div></div>
+            </div>
+            <div class="callout callout--info"><b>How the gate is tuned</b><span class="small">It errs toward sensitivity: a false alarm costs a minute; a miss can cost a life. Every firing is reviewed by a human within the session, and the words that triggered it are always shown. The model never replies to a crisis on its own.</span></div>
+          </section>
+
+          <!-- CONSULT -->
+          <section class="view" id="view-consult">
+            <div class="flex between" style="flex-wrap:wrap;gap:.6rem">
+              <div><span class="chip chip--gold">Token 15</span> <b style="font-size:1.1rem;margin-left:.4rem">Meera P.</b> <span class="muted small">follow-up · week 6</span></div>
+              <span class="chip chip--sage">Recording consent given on 12 Sep · can be withdrawn any time</span>
+            </div>
+            <div class="scribe">
+              <div class="card">
+                <div class="flex between" style="flex-wrap:wrap;gap:.5rem">
+                  <h4 style="margin:0">Ambient scribe</h4>
+                  <div class="cluster"><button type="button" class="btn btn--sm btn--danger" id="rec"><span class="rec-dot" style="background:#fff"></span> Start listening</button><button type="button" class="btn btn--sm btn--ghost" id="gen" disabled>Draft the note</button></div>
+                </div>
+                <div class="waveform paused mt-2" id="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="transcript mt-2" id="transcript">
+                  <p class="muted">Audio stays in the room: it is transcribed, the note is drafted, and the recording is deleted when the note is signed. Press Start to see a sample transcript.</p>
+                </div>
+              </div>
+              <div class="card">
+                <h4 style="margin:0">Consultation note <span class="note"><span class="ai">AI draft</span></span></h4>
+                <div class="note mt-2" id="note-draft">
+                  <p class="muted small">The draft appears here after the transcript. You edit, then sign. Nothing enters the record before your signature.</p>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="flex between" style="flex-wrap:wrap;gap:.5rem"><h4 style="margin:0">Prescription composer</h4><span class="small muted">Gujarati instructions generated from the sig, editable</span></div>
+              <div class="rx mt-2" id="rx">
+                <div class="rx-line"><div><b>Escitalopram · night after dinner · continue</b><span class="gu" lang="gu">એસ્સિટાલોપ્રામ: રાત્રે જમ્યા પછી એક ગોળી, ચાલુ રાખવી</span></div><button type="button" class="btn btn--sm btn--ghost" data-toast="Line opens for editing.">Edit</button></div>
+                <div class="rx-line"><div><b>Clonazepam · stop</b><span class="gu" lang="gu">ક્લોનાઝેપામ: બંધ. જો ઊંઘ ન આવે તો ક્લિનિકને જણાવવું</span></div><button type="button" class="btn btn--sm btn--ghost" data-toast="Line opens for editing.">Edit</button></div>
+                <div class="rx-line"><div><b>Vitamin B12 · morning · 3 months</b><span class="gu" lang="gu">વિટામિન B12: સવારે એક, ત્રણ મહિના</span></div><button type="button" class="btn btn--sm btn--ghost" data-toast="Line opens for editing.">Edit</button></div>
+                <div class="rx-line"><div><b>Referral · physician for TSH 7.8 · letter attached</b><span class="gu" lang="gu">થાઇરોઇડ માટે ફિઝિશિયનને બતાવવું, પત્ર સાથે છે</span></div><button type="button" class="btn btn--sm btn--ghost" data-toast="Line opens for editing.">Edit</button></div>
+                <div class="rx-line"><div><b>Follow-up · 4 weeks · PHQ-9, GAD-7, ISI before visit</b><span class="gu" lang="gu">ચાર અઠવાડિયા પછી ફરી મળવું. મુલાકાત પહેલાં 2 મિનિટની તપાસ ભરવી</span></div><button type="button" class="btn btn--sm btn--ghost" data-toast="Line opens for editing.">Edit</button></div>
+              </div>
+              <div class="cluster mt-3">
+                <button type="button" class="btn btn--primary" id="sign">Sign note and prescription</button>
+                <button type="button" class="btn btn--ghost" data-toast="Interaction check: no clinically significant interactions in this prescription.">Check interactions</button>
+                <span class="help">Signing sends the e-prescription to the patient on WhatsApp with Gujarati instructions, books the follow-up, and deletes the audio.</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- FOLLOW-UPS -->
+          <section class="view" id="view-followup">
+            <div class="section-head" style="margin-bottom:.3rem"><h2 style="font-size:var(--step-3)">Follow-ups and relapse watch</h2><p class="muted">Psychiatry loses patients between the first prescription and the second visit. This board exists to stop that.</p></div>
+            <div class="grid grid-2">
+              <div class="card">
+                <h4>Due this week · no-show risk <span class="note"><span class="ai">model</span></span></h4>
+                <div class="table-wrap mt-2"><table><thead><tr><th>Patient</th><th>Due</th><th class="num">Risk</th><th>Why</th><th>Action</th></tr></thead><tbody>
+                  <tr><td><b>Kinjal D.</b> · Mahuva</td><td>Thu</td><td class="num"><span class="status status--crit">62%</span></td><td>2 hours away, missed once before</td><td><button type="button" class="btn btn--sm btn--ghost" data-toast="Offered a video slot on WhatsApp in Gujarati.">Offer video</button></td></tr>
+                  <tr><td><b>Bhavesh T.</b></td><td>Fri</td><td class="num"><span class="status status--warn">38%</span></td><td>No check-ins for 10 days</td><td><button type="button" class="btn btn--sm btn--ghost" data-toast="Nudge sent.">Nudge</button></td></tr>
+                  <tr><td><b>Aarav S.</b> (mother)</td><td>Sat</td><td class="num"><span class="status status--good">12%</span></td><td>Confirmed yesterday</td><td><span class="small muted">None</span></td></tr>
+                  <tr><td><b>Jignesh M.</b></td><td>Today</td><td class="num"><span class="status status--good">8%</span></td><td>Arrived</td><td><span class="small muted">None</span></td></tr>
+                </tbody></table></div>
+                <div class="tmpl mt-3"><b class="small">Nudge template · Gujarati</b><span class="gu" lang="gu">નમસ્તે કિંજલબેન, ગુરુવારે સાંજે 6:30 વાગ્યે ડૉ. પરમાર સાથે તમારી મુલાકાત છે. જો ભાવનગર આવવું અઘરું હોય તો વિડિયો પર પણ થઈ શકે. "વિડિયો" લખીને જવાબ આપો.</span><span class="small muted" style="display:block;margin-top:.3rem">Says only "visit" and the doctor's name. No clinic name or diagnosis, as per the patient's privacy setting.</span></div>
+              </div>
+              <div class="stack">
+                <div class="card" style="border-left:4px solid var(--amber)">
+                  <h4>Relapse watch-list</h4>
+                  <p class="small muted">Triggers: three missed doses, sleep under four hours on two nights, mood drop of three points, or a missed follow-up. Any two together.</p>
+                  <div class="list mt-2">
+                    <div class="row"><span class="token" style="background:var(--amber-soft);color:var(--amber)">!</span><div><b>Nikhil P. · psychosis clinic</b><span>Missed doses x9 · sleep 2-3 h · caregiver worried. In today's queue.</span></div><span class="chip chip--crimson">Act</span></div>
+                    <div class="row"><span class="token" style="background:var(--amber-soft);color:var(--amber)">!</span><div><b>Bhavesh T. · bipolar clinic</b><span>No check-ins x10 · lithium 1.4 outside report · spending "a lot" per spouse.</span></div><span class="chip chip--amber">Call today</span></div>
+                    <div class="row"><span class="token" style="background:var(--amber-soft);color:var(--amber)">!</span><div><b>Meera P. · mood clinic</b><span>Early waking x2 · otherwise improving. Review sleep at today's visit.</span></div><span class="chip chip--sky">Watch</span></div>
+                  </div>
+                </div>
+                <div class="card card--flat">
+                  <h4>Quit with Kiran · cohort this month</h4>
+                  <div class="grid grid-3 mt-2">
+                    <div class="stat"><b>23</b><span>on programme</span></div>
+                    <div class="stat"><b>17</b><span>past day 30</span></div>
+                    <div class="stat"><b>4</b><span>slips logged, 0 drop-outs</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- EEG -->
+          <section class="view" id="view-eeg">
+            <div class="section-head" style="margin-bottom:.3rem"><h2 style="font-size:var(--step-3)">EEG and reports</h2><p class="muted">EEG schedule, outside reports uploaded by patients, and AI plain-language summaries awaiting sign-off.</p></div>
+            <div class="grid grid-2">
+              <div class="card">
+                <h4>EEG room · today</h4>
+                <div class="list mt-2">
+                  <div class="row"><span class="token">17:15</span><div><b>Dhruv K. · 14 · M</b><span>Routine EEG · prep instructions sent Monday · hair washed confirmed</span></div><span class="chip chip--sage">Ready</span></div>
+                  <div class="row"><span class="token">18:00</span><div><b>Hansaben R. · 63 · F</b><span>Sleep-deprived EEG · daughter confirms awake since 2 am</span></div><span class="chip chip--sky">Expected</span></div>
+                </div>
+                <form class="stack-sm mt-3" data-demo="EEG booked. Preparation instructions sent in Gujarati on WhatsApp.">
+                  <label class="field">Book an EEG<select><option>Routine (30-45 min)</option><option>Sleep-deprived</option></select></label>
+                  <button type="submit" class="btn btn--sm btn--ghost">Book and send instructions</button>
+                </form>
+              </div>
+              <div class="card">
+                <h4>Reports awaiting sign-off</h4>
+                <div class="list mt-2">
+                  <div class="row" style="border-left:4px solid var(--amber)"><span class="token">AI</span><div><b>Bhavesh T. · outside lab · lithium 1.4</b><span>Summary drafted: "Above the usual maintenance range; symptoms to watch…" Escalated. Awaiting your note.</span></div><button type="button" class="btn btn--sm btn--primary" data-toast="Signed with your comment. Patient notified and asked to come today.">Review</button></div>
+                  <div class="row"><span class="token">AI</span><div><b>Meera P. · TSH 7.8, B12 160</b><span>Summary drafted in Gujarati and English. Explains the tests, defers interpretation to you.</span></div><button type="button" class="btn btn--sm btn--ghost" data-toast="Signed. Patient sees the summary with your one-line comment.">Review</button></div>
+                  <div class="row"><span class="token">AI</span><div><b>Dhruv K. · school report</b><span>Teacher's note summarised for the child clinic: attention items 7/9, hyperactivity 4/9.</span></div><button type="button" class="btn btn--sm btn--ghost" data-toast="Attached to the pre-visit brief.">Attach</button></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- OUTCOMES -->
+          <section class="view" id="view-outcomes">
+            <div class="section-head" style="margin-bottom:.3rem"><h2 style="font-size:var(--step-3)">Outcomes</h2><p class="muted">What the clinic measures about itself, every quarter. The toggle publishes the aggregate numbers to the website; no patient is identifiable.</p></div>
+            <div class="kpis">
+              <div class="kpi"><b>68%</b><span>PHQ-9 improved ≥5 points by week 8</span></div>
+              <div class="kpi"><b>71%</b><span>Quit with Kiran abstinent at day 90</span></div>
+              <div class="kpi"><b>83%</b><span>attended first follow-up (was 54%)</span></div>
+              <div class="kpi"><b>11 min</b><span>median wait with tokens (was 52)</span></div>
+            </div>
+            <div class="grid grid-2">
+              <div class="card"><b>Patients improving on PHQ-9 by quarter</b><div class="small muted">Share with a 5-point drop or more by week 8 · sample</div><div id="c-out1" class="mt-2"></div></div>
+              <div class="card"><b>First follow-up attendance</b><div class="small muted">Before and after tokens, reminders and My Care · sample</div><div id="c-out2" class="mt-2"></div></div>
+            </div>
+            <div class="card card--flat"><label class="switch"><input type="checkbox" checked><span>Publish these aggregate outcomes on the website</span></label><p class="help mt-2">Patients choose a clinic that shows its results. Publishing requires at least 50 patients per measure per quarter so no individual can be inferred.</p></div>
+          </section>
+
+          <!-- CONTENT -->
+          <section class="view" id="view-content">
+            <div class="section-head" style="margin-bottom:.3rem"><h2 style="font-size:var(--step-3)">Content studio</h2><p class="muted">Record a two-minute voice note after clinic. The studio drafts a trilingual article, a myth-and-fact card and a WhatsApp status, all for your sign-off.</p></div>
+            <div class="grid grid-2">
+              <div class="card">
+                <h4>Voice note · 1:48 · Dr. Parmar</h4>
+                <p class="small ink-2 mt-2">"Had three parents this week worried that their Class 10 child is 'lazy'. In each case the child was sleeping four hours because of phone and tuition. Want a short piece on exam-season sleep, in Gujarati first, with the three questions parents should ask…"</p>
+                <button type="button" class="btn btn--sm btn--primary mt-3" id="draft-post">Draft from this note</button>
+              </div>
+              <div class="card" id="post-out">
+                <h4>Draft <span class="note"><span class="ai">AI</span></span></h4>
+                <p class="small muted mt-2">The draft appears here. Three languages, one message, each checked for medical accuracy against the clinic's own FAQ before you see it.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="assets/i18n.js"></script>
+<script src="assets/site.js"></script>
+<script>
+(function () {
+  const nav = document.querySelectorAll(".side-nav [data-view]");
+  function showView(name) {
+    nav.forEach((b) => b.setAttribute("aria-current", String(b.dataset.view === name)));
+    document.querySelectorAll(".view").forEach((v) => v.classList.toggle("active", v.id === "view-" + name));
+    if (name === "brief") sparks();
+    if (name === "outcomes") outcomes();
+    if (window.innerWidth < 960) document.getElementById("view-" + name).scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  nav.forEach((b) => b.addEventListener("click", () => showView(b.dataset.view)));
+  document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => showView(b.dataset.go)));
+  document.querySelectorAll("[data-toast]").forEach((b) => b.addEventListener("click", (e) => { if (b.tagName === "A") e.preventDefault(); toast(b.getAttribute("data-toast")); }));
+
+  // queue: call next
+  let seen = 14;
+  document.getElementById("call-next").addEventListener("click", () => {
+    const rows = Array.from(document.querySelectorAll("#queue-list .row"));
+    const cur = rows.findIndex((r) => r.classList.contains("sel"));
+    if (cur >= 0) { rows[cur].classList.remove("sel"); rows[cur].querySelector(".chip").className = "chip chip--sage"; rows[cur].querySelector(".chip").textContent = "Done"; rows[cur].style.opacity = ".55"; }
+    const next = rows.find((r, i) => i > cur && !r.classList.contains("sel") && r.style.opacity !== ".55");
+    if (next) { next.classList.add("sel"); const c = next.querySelector(".chip"); c.className = "chip chip--gold"; c.textContent = "In room"; seen++; document.getElementById("k-seen").textContent = seen; const w = Math.max(0, Number(document.getElementById("k-wait").textContent) - 1); document.getElementById("k-wait").textContent = w; document.getElementById("q-badge").textContent = w; toast("Token " + next.dataset.token + " called. Waiting-room display updated."); }
+    else toast("Queue is empty for this session.");
+  });
+
+  // sparklines
+  function sparks() {
+    document.getElementById("sp-phq").innerHTML = KIRAN_CHART.spark([19, 15, 11, 8]);
+    document.getElementById("sp-gad").innerHTML = KIRAN_CHART.spark([16, 13, 9, 6]);
+    document.getElementById("sp-isi").innerHTML = KIRAN_CHART.spark([18, 16, 14]);
+  }
+
+  // scribe
+  const T = [
+    ["Dr", "Meera, last time we said the night tablet would stop by now. How did the taper go?", false],
+    ["Pt", "અડધી ગોળી લીધી આ અઠવાડિયે. ઊંઘ આવે છે, પણ ત્રણ વાગ્યે આંખ ખૂલી જાય છે.", true],
+    ["Dr", "Two nights or more? And after waking, do you fall back asleep?", false],
+    ["Pt", "બે વાર. પછી ફોન જોઉં છું, ઊંઘ પાછી નથી આવતી.", true],
+    ["Dr", "Phone in bed, we will talk about that. Mood in the day?", false],
+    ["Pt", "સારું છે. ઓફિસ ચાર દિવસ ગઈ. સોમવારે થોડું ટેન્શન.", true],
+    ["Dr", "Any thoughts of harming yourself, at any point since we met?", false],
+    ["Pt", "ના, બિલકુલ નહીં.", true],
+    ["Dr", "Good. Your thyroid test is a little high; I will write to the physician. Stop the night tablet fully from today, keep the morning walk, phone out of the bedroom.", false]
+  ];
+  const rec = document.getElementById("rec"), gen = document.getElementById("gen"), wave = document.getElementById("wave"), tr = document.getElementById("transcript");
+  let recording = false, ti = 0, timer;
+  rec.addEventListener("click", () => {
+    if (recording) { recording = false; clearInterval(timer); wave.classList.add("paused"); rec.innerHTML = '<span class="rec-dot" style="background:#fff"></span> Start listening'; gen.disabled = false; return; }
+    recording = true; wave.classList.remove("paused"); rec.innerHTML = "■ Stop"; tr.innerHTML = ""; ti = 0;
+    timer = setInterval(() => {
+      if (ti >= T.length) { clearInterval(timer); recording = false; wave.classList.add("paused"); rec.innerHTML = '<span class="rec-dot" style="background:#fff"></span> Start listening'; gen.disabled = false; return; }
+      const p = document.createElement("p"); p.innerHTML = "<b>" + T[ti][0] + "</b>" + (T[ti][2] ? '<span class="gu" lang="gu">' + T[ti][1] + "</span>" : T[ti][1]); tr.appendChild(p); tr.scrollTop = tr.scrollHeight; ti++;
+    }, 900);
+  });
+  gen.addEventListener("click", () => {
+    const out = document.getElementById("note-draft");
+    const sections = [
+      ["Presenting", "Follow-up at week 6 for depressive episode with anxiety. Attending with mother present for part of the visit at her request."],
+      ["Interval history", "Clonazepam tapered to half dose this week, planned stop today. <mark>Early-morning waking around 3 am on two nights</mark>, unable to return to sleep; reports phone use in bed. Daytime mood good; attended office four days; Monday stress. Adherence 86% (one missed escitalopram). Walking most mornings."],
+      ["Mental state", "Alert, cooperative, speech normal in rate and volume, mood 'sari che', affect reactive, no psychotic features elicited, cognition grossly intact, insight good."],
+      ["Risk", "<mark>Denies any thoughts of self-harm</mark> since last visit, asked directly. No risk language across 7 check-ins and 4 messages. Protective: family support, work engagement."],
+      ["Scales", "PHQ-9 8 (from 11), GAD-7 6 (from 9), ISI 14 (from 16)."],
+      ["Investigations", "TSH 7.8 (high), B12 160 (low); for physician review and supplementation."],
+      ["Assessment", "Depressive episode, improving; residual insomnia (early waking) likely behavioural plus possible thyroid contribution."],
+      ["Plan", "Continue escitalopram. Stop clonazepam. Sleep hygiene: phone out of bedroom, fixed wake time. B12 supplementation. Refer to physician for TSH. Review 4 weeks with PHQ-9, GAD-7, ISI before visit."]
+    ];
+    out.innerHTML = "";
+    let i = 0;
+    const step = () => {
+      if (i >= sections.length) { out.insertAdjacentHTML("beforeend", '<p class="help mt-2">Drafted from 1:48 of audio and the pre-visit brief. Highlighted phrases quote the patient. Edit anything; sign when correct.</p>'); return; }
+      out.insertAdjacentHTML("beforeend", "<h5>" + sections[i][0] + "</h5><p>" + sections[i][1] + "</p>"); i++; setTimeout(step, 350);
+    };
+    step();
+    gen.disabled = true;
+  });
+  document.getElementById("sign").addEventListener("click", () => toast("Signed. E-prescription sent on WhatsApp in Gujarati, follow-up booked for 4 weeks, audio deleted."));
+
+  // outcomes
+  function outcomes() {
+    document.getElementById("c-out1").innerHTML = KIRAN_CHART.bars({ values: [51, 58, 63, 68], labels: ["Q4 25", "Q1 26", "Q2 26", "Q3 26"], max: 100, highlight: 3, showValues: true, unit: "%", aria: "Share of patients improving on PHQ-9, rising from 51 to 68 percent over four quarters" });
+    document.getElementById("c-out2").innerHTML = KIRAN_CHART.bars({ values: [54, 61, 77, 83], labels: ["Before", "Tokens", "+Reminders", "+My Care"], max: 100, highlight: 3, showValues: true, unit: "%", aria: "First follow-up attendance rising from 54 to 83 percent as tokens, reminders and My Care were introduced" });
+  }
+
+  // content studio
+  document.getElementById("draft-post").addEventListener("click", () => {
+    document.getElementById("post-out").innerHTML = '<h4>Draft <span class="note"><span class="ai">AI</span></span></h4>'
+      + '<div class="pill-tabs mt-2" role="tablist" data-tabs="post"><button type="button" role="tab" aria-selected="true" aria-controls="post-gu">ગુજરાતી</button><button type="button" role="tab" aria-selected="false" aria-controls="post-hi">हिन्दी</button><button type="button" role="tab" aria-selected="false" aria-controls="post-en">English</button></div>'
+      + '<div class="tab-panel active mt-2 small" id="post-gu" data-tab-panel="post" lang="gu"><b>પરીક્ષાની મોસમમાં "આળસુ" બાળક? કદાચ એ ઊંઘ છે.</b><p class="mt-1">આ અઠવાડિયે ત્રણ માતા-પિતા આવ્યા: "દસમાનું બાળક આળસુ થઈ ગયું છે." ત્રણેય બાળકો રાત્રે ચાર કલાક સૂતા હતા. ફોન અને ટ્યુશન વચ્ચે ઊંઘ ખોવાઈ ગઈ હતી. ત્રણ સવાલ પૂછો: ક્યારે સૂઈ ગયા? ફોન ક્યાં હતો? સવારે જાતે ઊઠ્યા કે ઉઠાડવા પડ્યા?</p></div>'
+      + '<div class="tab-panel mt-2 small" id="post-hi" data-tab-panel="post" lang="hi"><b>परीक्षा के मौसम में "आलसी" बच्चा? शायद वह नींद है.</b><p class="mt-1">इस हफ़्ते तीन माता-पिता आए: "दसवीं का बच्चा आलसी हो गया है." तीनों बच्चे रात में चार घंटे सो रहे थे. फोन और ट्यूशन के बीच नींद खो गई थी. तीन सवाल पूछें: कब सोए? फोन कहाँ था? सुबह खुद उठे या उठाना पड़ा?</p></div>'
+      + '<div class="tab-panel mt-2 small" id="post-en" data-tab-panel="post"><b>A "lazy" child in exam season? It may be sleep.</b><p class="mt-1">Three parents came this week with the same sentence: "My Class 10 child has become lazy." All three children were sleeping four hours a night, between the phone and late tuition. Ask three questions: when did they fall asleep, where was the phone, and did they wake on their own?</p></div>'
+      + '<div class="cluster mt-3"><button type="button" class="btn btn--sm btn--primary" data-toast="Published to Resources and queued as a WhatsApp status.">Approve and publish</button><button type="button" class="btn btn--sm btn--ghost" data-toast="Opens the editor.">Edit</button></div>'
+      + '<p class="help mt-2">Checked against the clinic FAQ: no dosing, no diagnosis, no claims beyond the note.</p>';
+    const group = document.querySelector('[data-tabs="post"]');
+    const tabs = group.querySelectorAll("[role=tab]");
+    tabs.forEach((tab) => tab.addEventListener("click", () => { tabs.forEach((x) => x.setAttribute("aria-selected", "false")); tab.setAttribute("aria-selected", "true"); document.querySelectorAll("[data-tab-panel='post']").forEach((p) => p.classList.toggle("active", p.id === tab.getAttribute("aria-controls"))); }));
+    document.querySelectorAll("#post-out [data-toast]").forEach((b) => b.addEventListener("click", () => toast(b.getAttribute("data-toast"))));
+  });
+})();
+</script>
+</body>
+</html>

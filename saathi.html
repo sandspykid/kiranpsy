@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kiran Saathi · Kiran Neuro-Psychiatry Care</title>
+<meta name="description" content="Kiran Saathi is the clinic's AI companion. It helps you prepare for a visit, explains your medicines, supports you through a craving, and always has a doctor behind it.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='26' r='9' fill='%23E3A23A'/%3E%3Cpath d='M20 4v7M8.3 9.3l4.9 4.9M31.7 9.3l-4.9 4.9M3 20h7M30 20h7' stroke='%23122B33' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600;700&family=Mukta+Vaani:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .scenarios { display: grid; gap: .5rem; }
+  .scenario { display: grid; grid-template-columns: 40px 1fr auto; gap: .8rem; align-items: center; text-align: left; padding: .75rem .9rem; border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); }
+  .scenario:hover { border-color: var(--gold); background: var(--gold-soft); }
+  .scenario .s-icon { width: 40px; height: 40px; border-radius: 11px; background: var(--gold-soft); color: var(--gold-text); display: grid; place-items: center; }
+  .scenario .s-icon svg { width: 20px; height: 20px; }
+  .scenario b { display: block; font-size: .95rem; }
+  .scenario span { font-size: .8rem; color: var(--muted); }
+  .scenario--crit .s-icon { background: var(--crimson-soft); color: var(--crimson); }
+  .scenario--crit:hover { border-color: var(--crimson); background: var(--crimson-soft); }
+  .summary-card { background: var(--surface); border: 1px solid var(--gold); border-radius: 12px; padding: .8rem .9rem; font-size: .88rem; display: grid; gap: .35rem; }
+  .summary-card h5 { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-text); margin: 0; }
+  .summary-card dl { margin: 0; display: grid; grid-template-columns: 110px 1fr; gap: .25rem .6rem; }
+  .summary-card dt { color: var(--muted); font-weight: 600; } .summary-card dd { margin: 0; }
+  .pipeline { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: .6rem; }
+  @media (max-width: 640px) { .pipeline { grid-template-columns: 1fr; } }
+  .pipe { border: 1px solid var(--line); border-radius: 12px; padding: .9rem; background: var(--surface); position: relative; }
+  .pipe b { display: block; font-family: var(--font-display); font-size: 1.02rem; margin-bottom: .25rem; }
+  .pipe span { font-size: .82rem; color: var(--muted); }
+  .pipe .n { position: absolute; top: -10px; left: 12px; background: var(--gold); color: #122B33; font-size: .7rem; font-weight: 800; padding: .15rem .5rem; border-radius: 999px; }
+  .chat { min-height: 560px; }
+  @media (max-width: 960px) { .chat { min-height: 520px; max-height: 70vh; } }
+</style>
+</head>
+<body data-page="saathi">
+<div id="site-header"></div>
+
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><span>Kiran Saathi</span></nav>
+      <p class="eyebrow">Kiran Saathi · AI companion</p>
+      <h1>Someone to talk to at 2 am, who knows when to wake a doctor.</h1>
+      <p class="lede">Saathi means companion. It is the clinic's AI assistant, built on your own care plan. It speaks Gujarati, Hindi and English, it never diagnoses or changes a dose, and whenever something sounds unsafe it puts a human in the loop. Try it below. This demo runs entirely in your browser and stores nothing.</p>
+      <div class="cluster mt-3">
+        <span class="chip chip--sage">Never diagnoses</span>
+        <span class="chip chip--sage">Never changes a dose</span>
+        <span class="chip chip--sage">Escalates risk to a human</span>
+        <span class="chip">ગુજરાતી · हिन्दी · English</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="split" style="align-items:start">
+        <div class="chat" id="chat" aria-label="Kiran Saathi demo chat">
+          <div class="chat-head">
+            <div class="avatar avatar--sm" aria-hidden="true">S</div>
+            <div style="flex:1;min-width:0"><b>Kiran Saathi</b><span>AI companion · not a doctor · demo</span></div>
+            <button type="button" class="btn btn--sm btn--ghost" id="reset">Start over</button>
+          </div>
+          <div class="chat-body" id="chat-body" aria-live="polite"></div>
+          <form class="chat-input" id="chat-form" autocomplete="off">
+            <label class="sr-only" for="chat-text">Message</label>
+            <input type="text" id="chat-text" placeholder="Type in Gujarati, Hindi or English…" maxlength="400">
+            <button type="submit" class="btn btn--primary btn--sm">Send</button>
+          </form>
+        </div>
+        <div class="stack">
+          <div>
+            <p class="eyebrow">Try a scenario</p>
+            <div class="scenarios">
+              <button type="button" class="scenario" data-scenario="intake"><span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/></svg></span><span><b>Prepare for my first visit</b><span>Tell Saathi what is wrong. It writes the summary your doctor reads.</span></span><span aria-hidden="true">→</span></button>
+              <button type="button" class="scenario" data-scenario="meds"><span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></span><span><b>Explain my medicines</b><span>From a sample prescription. Missed-dose rules, what to expect, when to call.</span></span><span aria-hidden="true">→</span></button>
+              <button type="button" class="scenario" data-scenario="craving"><span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="5"/></svg></span><span><b>Craving SOS</b><span>Three minutes to ride out a gutka craving, then log it.</span></span><span aria-hidden="true">→</span></button>
+              <button type="button" class="scenario" data-scenario="report"><span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6M9 14h6M9 17h4"/></svg></span><span><b>Explain a report</b><span>Type a line from a blood test. See what Saathi says and what it refuses to say.</span></span><span aria-hidden="true">→</span></button>
+              <button type="button" class="scenario scenario--crit" data-scenario="crisis"><span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.5"/></svg></span><span><b>See the safety gate</b><span>What happens when someone says they want to end their life.</span></span><span aria-hidden="true">→</span></button>
+            </div>
+          </div>
+          <div class="card card--flat">
+            <h4>What Saathi never does</h4>
+            <ul class="check-list check-list--x mt-2 small">
+              <li>Name a diagnosis or a "probable" disorder</li>
+              <li>Tell you to start, stop or change a dose</li>
+              <li>Carry a crisis alone. Risk language opens the crisis card and alerts the clinic</li>
+              <li>Pretend to be a person. It says it is an AI at the start of every session</li>
+              <li>Keep anything from an anonymous session</li>
+            </ul>
+            <a class="link-arrow mt-2 small" href="rights.html#ai">Read the full AI policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">How it is built</p>
+        <h2>Safety first, assistant second, doctor last and always.</h2>
+        <p class="lede">Every message passes through the same three stages. The order is the point.</p>
+      </div>
+      <div class="pipeline">
+        <div class="pipe"><span class="n">1</span><b>Safety gate</b><span>A small, fast model reads every incoming message for self-harm, harm to others, abuse, psychosis, intoxication or a medical emergency. If it fires, the crisis card shows first and the on-call line is alerted. The main assistant is not consulted.</span></div>
+        <div class="pipe"><span class="n">2</span><b>Saathi assistant</b><span>A larger model with tools: your appointment slots, your own prescription, the clinic FAQ, scale scoring and a report summariser. It answers in your language and keeps to its rules.</span></div>
+        <div class="pipe"><span class="n">3</span><b>Clinician review</b><span>Anything that touches care, such as an intake summary, a note or a flagged report, lands in the doctor's review queue as a draft with provenance. Nothing enters your record until a doctor signs it.</span></div>
+      </div>
+      <div class="grid grid-3 mt-4">
+        <div class="card"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/></svg></span><h3>For you</h3><p class="small ink-2">Intake in your words, medicine explainer, craving SOS, report explainer, visit reminders, a two-minute check-in before every follow-up.</p></div>
+        <div class="card"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="10" r="2.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M14 20a4 4 0 0 1 7.5-2"/></svg></span><h3>For your family</h3><p class="small ink-2">With your consent: the medicine schedule read out in Gujarati, red-flag guidance, and what to do tonight. Never your therapy notes.</p><a class="link-arrow mt-2 small" href="portal.html#family">Family Circle</a></div>
+        <div class="card"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v4M16 4v4"/></svg></span><h3>For the clinic</h3><p class="small ink-2">Pre-visit briefs, a risk inbox, an ambient scribe that drafts the note, relapse watch-lists and Gujarati WhatsApp follow-ups.</p><a class="link-arrow mt-2 small" href="clinic.html">See the clinic console</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="assets/i18n.js"></script>
+<script src="assets/site.js"></script>
+<script>
+(function () {
+  const body = document.getElementById("chat-body");
+  const form = document.getElementById("chat-form");
+  const input = document.getElementById("chat-text");
+  let flow = null, flowStep = 0, answers = {}, busy = false, typingEl = null;
+
+  const isGujarati = (s) => /[઀-૿]/.test(s);
+  const isHindi = (s) => /[ऀ-ॿ]/.test(s);
+  const RISK = /(suicid|kill myself|end my life|end it all|want to die|better off dead|hurt myself|no reason to live|cut myself|overdose|મરી જવ|મરવું|આત્મહત્ય|आत्महत्या|मरना चाह|जान दे)/i;
+
+  function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+  function scroll() { body.scrollTop = body.scrollHeight; }
+  function add(cls, html, opts) {
+    const d = document.createElement("div"); d.className = "msg " + cls; d.innerHTML = html;
+    if (opts && opts.lang) d.setAttribute("lang", opts.lang);
+    body.appendChild(d); scroll(); return d;
+  }
+  function chips(list) {
+    const wrap = document.createElement("div"); wrap.className = "msg msg--bot"; const row = document.createElement("div"); row.className = "msg-actions";
+    list.forEach((c) => { const b = document.createElement("button"); b.type = "button"; b.className = "chip-btn"; b.textContent = c.label; b.addEventListener("click", () => { wrap.remove(); userSay(c.label, c.action); }); row.appendChild(b); });
+    wrap.appendChild(row); body.appendChild(wrap); scroll();
+  }
+  function typing(on) {
+    if (on && !typingEl) { typingEl = document.createElement("div"); typingEl.className = "msg msg--bot typing"; typingEl.innerHTML = "<i></i><i></i><i></i>"; body.appendChild(typingEl); scroll(); }
+    if (!on && typingEl) { typingEl.remove(); typingEl = null; }
+  }
+  function bot(html, delay, opts) {
+    return new Promise((res) => { busy = true; typing(true); setTimeout(() => { typing(false); add("msg--bot", html, opts); busy = false; res(); }, delay == null ? 700 + Math.min(1400, html.length * 6) : delay); });
+  }
+  function userSay(text, action) {
+    add("msg--user", esc(text), { lang: isGujarati(text) ? "gu" : isHindi(text) ? "hi" : null });
+    if (action) return action(text);
+    return route(text);
+  }
+
+  async function greet() {
+    body.innerHTML = "";
+    flow = null; flowStep = 0; answers = {};
+    add("msg--sys", "Kiran Saathi is the clinic's AI companion, not a doctor. This demo stores nothing.");
+    await bot('<span lang="gu">નમસ્તે.</span> I am Kiran Saathi, the AI companion from Kiran Neuro-Psychiatry Care. I am not a doctor, but I know how the clinic works and I can carry things to your doctor. What would you like to do?', 600);
+    chips([
+      { label: "Prepare for my first visit", action: () => startIntake() },
+      { label: "Explain my medicines", action: () => startMeds() },
+      { label: "I have a craving right now", action: () => startCraving() },
+      { label: "Explain a line from my report", action: () => startReport() }
+    ]);
+  }
+
+  /* ---------- crisis ---------- */
+  async function crisis(text) {
+    flow = "crisis";
+    const gu = isGujarati(text);
+    const card = '<b>I am really glad you told me.</b><p class="mt-1">What you are feeling is serious and it can be helped tonight. I have alerted the clinic\'s on-call team (in this demo, nothing was sent).</p>'
+      + '<p class="mt-1">Please do one of these now:</p><ul><li>Call the clinic line, open all night: <a class="num" href="tel:+918758299921"><b>+91 87582 99921</b></a></li><li>Tele-MANAS, free, 24x7, in Gujarati: <a class="num" href="tel:14416"><b>14416</b></a></li><li>If you have taken something or are injured: <a class="num" href="tel:108"><b>108</b></a></li></ul>'
+      + (gu ? '<p class="mt-1" lang="gu">તમે એકલા નથી. કૃપા કરીને અત્યારે જ કોઈને ફોન કરો.</p>' : "")
+      + '<p class="mt-1 small">Under Section 115 of the Mental Healthcare Act, no one is punished for attempting suicide. You will be helped, not reported.</p>';
+    typing(true); await new Promise((r) => setTimeout(r, 500)); typing(false);
+    add("msg--crisis", card);
+    await bot("Are you safe right now, in this moment? You can answer with one word.", 900);
+    chips([
+      { label: "I am safe for now", action: async () => { await bot("Thank you. Stay where you are, keep the phone with you, and if you can, sit with someone in the house. I will keep the clinic's number on screen. Would it help to write down one thing that is still worth staying for? You do not have to.", 900); chips([{ label: "Write something", action: async (t) => { await bot("Whenever you are ready, type it here. There is no wrong answer.", 600); flow = "crisis-reason"; } }, { label: "Just stay with me", action: async () => { await bot("I am here. Breathe out slowly, longer than you breathe in. Again. When you are ready, the clinic line is one tap away, and the doctor on call will talk to you tonight.", 900); } }]); } },
+      { label: "I am not safe", action: async () => { await bot('<b>Please call <a class="num" href="tel:112">112</a> or <a class="num" href="tel:108">108</a> now, or ask the nearest person to call for you.</b> Stay on this screen if you want to. Move away from anything you could use to hurt yourself. The clinic on-call doctor has been paged (demo).', 500); } }
+    ]);
+  }
+
+  /* ---------- intake ---------- */
+  const INTAKE = [
+    { key: "concern", q: "Let us build the summary your doctor will read before you enter. First: what is troubling you most? Say it the way you would say it to a friend. Gujarati, Hindi or English, all fine." },
+    { key: "since", q: "Since when has this been going on? A rough idea is enough: weeks, months, after a particular event." },
+    { key: "sleep", q: "How are sleep and appetite? For example: falling asleep, waking at 3 am, eating less, eating more." },
+    { key: "tried", q: "Have you seen a doctor for this before, or taken any medicine, including from a chemist or a family member? If yes, what?" },
+    { key: "goal", q: "Last one. If this visit works, what would be different in your life three months from now?" }
+  ];
+  async function startIntake() {
+    flow = "intake"; flowStep = 0; answers = {};
+    await bot(INTAKE[0].q, 900);
+  }
+  async function intakeNext(text) {
+    answers[INTAKE[flowStep].key] = text;
+    flowStep++;
+    if (flowStep < INTAKE.length) {
+      const ack = ["Thank you.", "Noted.", "That helps.", "Okay."][flowStep % 4];
+      await bot(ack + " " + INTAKE[flowStep].q, 900);
+      return;
+    }
+    flow = null;
+    await bot("Here is the summary. Read it; you can change anything before it goes to the doctor.", 800);
+    const card = '<div class="summary-card"><h5>Pre-visit summary · for the doctor</h5><dl>'
+      + "<dt>Main concern</dt><dd>" + esc(answers.concern) + "</dd>"
+      + "<dt>Duration</dt><dd>" + esc(answers.since) + "</dd>"
+      + "<dt>Sleep &amp; appetite</dt><dd>" + esc(answers.sleep) + "</dd>"
+      + "<dt>Previous treatment</dt><dd>" + esc(answers.tried) + "</dd>"
+      + "<dt>Patient's goal</dt><dd>" + esc(answers.goal) + "</dd>"
+      + "<dt>Risk screen</dt><dd>No risk language detected in this conversation. The doctor asks directly in the room.</dd>"
+      + '</dl><p class="small muted mt-1">Draft by Kiran Saathi. Not a diagnosis. Enters the record only after a doctor signs it.</p></div>';
+    add("msg--bot", card);
+    chips([
+      { label: "Send to my doctor", action: async () => { await bot("Sent to the clinic's review queue (demo). Your doctor will have read this before you walk in, so you can start from where it matters. Shall I book the visit?", 800); chips([{ label: "Book a visit", action: () => { location.href = "book.html"; } }, { label: "Not now", action: () => bot("No problem. The summary stays with you. Come back whenever you are ready.", 600) }]); } },
+      { label: "Change something", action: () => { startIntake(); } }
+    ]);
+  }
+
+  /* ---------- medicines ---------- */
+  const RX = [
+    { name: "Escitalopram", when: "Morning, after breakfast", what: "an SSRI type medicine for low mood and anxiety. It works slowly: most people notice sleep and worry easing by week 2, mood by week 4 to 6.", missed: "If you remember the same day, take it then. If it is already the next day, skip the missed one. Never take two to catch up.", watch: "Mild nausea, a little restlessness or headache in the first ten days usually settle on their own. Tell the clinic if you feel markedly more agitated, or have any thoughts of harming yourself." },
+    { name: "Clonazepam", when: "Night, for the first two weeks only", what: "a short-term calming medicine that helps sleep and panic while the escitalopram starts working. The plan is to taper it off; it is not meant for long-term use.", missed: "Skip it. Do not take it in the morning, and do not take an extra one the next night.", watch: "Drowsiness in the morning, so do not drive or ride until you know how it affects you. Avoid alcohol with it." }
+  ];
+  async function startMeds() {
+    flow = "meds";
+    await bot("I am reading from a <b>sample prescription</b> so you can see how this works. In the real app, this is your own prescription, signed by your doctor.", 800);
+    const card = '<div class="summary-card"><h5>Sample prescription · Dr. Keyur Parmar</h5><dl>' + RX.map((r) => "<dt>" + r.name + "</dt><dd>" + r.when + "</dd>").join("") + "</dl></div>";
+    add("msg--bot", card);
+    await bot("Which would you like to know about?", 500);
+    medChips();
+  }
+  function medChips() {
+    chips([
+      { label: "What is escitalopram for?", action: () => medAnswer(0, "what") },
+      { label: "I missed last night's clonazepam", action: () => medAnswer(1, "missed") },
+      { label: "Side effects to watch", action: () => medAnswer(0, "watch") },
+      { label: "Can I stop the medicines?", action: async () => { await bot("Stopping is a decision for your doctor, not for me and not for a chemist. Stopping escitalopram suddenly can cause dizziness, irritability and a return of symptoms; it is tapered. I have noted your question for your next visit so the doctor raises it with you. If you are having side effects right now, call the clinic today.", 1200); medChips(); } }
+    ]);
+  }
+  async function medAnswer(i, key) {
+    const r = RX[i];
+    const txt = key === "what" ? r.name + " is " + r.what : key === "missed" ? "Missed " + r.name + ": " + r.missed : r.name + ": " + r.watch;
+    await bot(txt + '<p class="small muted mt-1">From your prescription, in plain words. Not medical advice; your doctor\'s instructions come first.</p>', 1000);
+    chips([{ label: "Read it in Gujarati", action: async () => { await bot('<span lang="gu">આ દવા મૂડ અને ચિંતા માટે છે. દરરોજ સવારે નાસ્તા પછી લેવી. ભૂલી જાઓ તો તે જ દિવસે યાદ આવે ત્યારે લઈ લેવી; બીજા દિવસે બે સાથે ન લેવી.</span><p class="small muted mt-1">Saathi answers in the script you write in. This line is a fixed sample in the demo.</p>', 900); medChips(); } }, { label: "Another question", action: () => medChips() }]);
+  }
+
+  /* ---------- craving ---------- */
+  async function startCraving() {
+    flow = "craving";
+    await bot("Okay. A craving peaks and passes in about three minutes, whether or not you give in. Let us ride this one out together. First, where are you and what is in reach?", 800);
+    chips([
+      { label: "At the shop, gutka is right here", action: () => cravingStep2("Step away from the counter. Walk to the door or outside; the craving is weaker ten steps away. Take the phone with you.") },
+      { label: "At home", action: () => cravingStep2("Good. Move to a different room from where you usually chew. Pour a glass of water and keep it in your hand.") }
+    ]);
+  }
+  async function cravingStep2(lead) {
+    await bot(lead + " Now breathe with me: in for 4, hold for 4, out for 6. Three rounds. Type <b>done</b> when you finish, or tap it.", 1000);
+    chips([{ label: "Done", action: cravingStep3 }]);
+  }
+  async function cravingStep3() {
+    await bot("Here are the reasons you wrote on your quit day. Read them slowly:<ul><li>Riya's school fees: the money is hers, not the gutka's</li><li>The dentist said the white patch is still there</li><li>Day 1 was the hardest day and you did it</li></ul>", 1200);
+    await bot("How strong is it now, out of 10?", 600);
+    chips([
+      { label: "Weaker, 3 or 4", action: async () => { await bot("That is the craving passing. Logged: craving at 7, passed in 3 minutes, no use. Twelve cravings beaten this week. Your Day 30 visit with Dr. Parmar is next Tuesday.", 900); chips([{ label: "Open the full SOS tool", action: () => { location.href = "deaddiction.html#sos"; } }]); } },
+      { label: "Still strong, 8", action: async () => { await bot('Then we add help. Two options, your choice: delay by ten minutes with a timer, or message your quit buddy Hitesh now. Either way, the clinic knows this was a hard one and will ask about it. <div class="msg-actions"><a class="chip-btn" href="deaddiction.html#sos">Ten-minute timer</a><a class="chip-btn" href="https://wa.me/?text=' + encodeURIComponent("Craving is strong right now. Can you call me?") + '" target="_blank" rel="noopener">Message my buddy</a></div>', 1000); } }
+    ]);
+  }
+
+  /* ---------- report ---------- */
+  async function startReport() {
+    flow = "report";
+    await bot("Type one line from a report, for example <b>TSH 7.8</b>, <b>Vitamin B12 160</b> or <b>Lithium 1.4</b>. I will tell you what the test is, and I will not tell you what to do about it. That part belongs to your doctor.", 900);
+    chips([{ label: "TSH 7.8", action: (t) => reportAnswer(t) }, { label: "Vitamin B12 160", action: (t) => reportAnswer(t) }, { label: "Lithium 1.4", action: (t) => reportAnswer(t) }]);
+  }
+  async function reportAnswer(text) {
+    const t = text.toLowerCase();
+    let html;
+    if (/tsh/.test(t)) html = "<b>TSH</b> is thyroid stimulating hormone. Laboratories usually give a reference range of roughly 0.4 to 4.0 mIU/L; 7.8 is above that range. The thyroid affects energy, mood and weight, which is why psychiatrists often check it. I cannot interpret this for you or suggest treatment. I have flagged the value to your doctor for your next visit, marked as <b>needs review</b>.";
+    else if (/b12/.test(t)) html = "<b>Vitamin B12</b> at 160 pg/mL is below most laboratory reference ranges, which usually start around 200. Low B12 is common in vegetarian diets and can affect energy, memory and mood. Whether and how to correct it is your doctor's call. I have flagged it for review.";
+    else if (/lithium/.test(t)) html = "<b>Lithium level</b> 1.4 mmol/L is above the range most clinics aim for in maintenance treatment. <b>This is one I escalate rather than explain.</b> If you take lithium and have shaking, vomiting, diarrhoea, confusion or unsteady walking, call the clinic now or go to a hospital. The on-call doctor has been alerted (demo).";
+    else html = "I do not recognise that test well enough to explain it safely, so I will not guess. I have attached your line to your doctor's review queue and they will explain it at your visit, or earlier if it needs attention.";
+    await bot(html + '<p class="small muted mt-1">Information about what a test measures, not medical advice.</p>', 1200);
+    chips([{ label: "Another line", action: startReport }, { label: "Back to the start", action: greet }]);
+  }
+
+  /* ---------- router ---------- */
+  async function route(text) {
+    if (busy) return;
+    if (RISK.test(text)) return crisis(text);
+    const t = text.toLowerCase();
+    if (flow === "intake") return intakeNext(text);
+    if (flow === "report" && (/\d/.test(text) || /tsh|b12|lithium|hb|haemoglobin|sugar|thyroid|vitamin/.test(t))) return reportAnswer(text);
+    if (flow === "crisis-reason") { flow = "crisis"; await bot("Thank you for writing that. Keep it. The clinic line is open now if you want to talk to a person: +91 87582 99921.", 800); return; }
+    if (flow === "craving" && /done/.test(t)) return cravingStep3();
+    if (/visit|prepare|appointment|book|doctor/.test(t)) return startIntake();
+    if (/medicine|tablet|dose|missed|side effect|dawa|દવા|दवा/.test(t)) return startMeds();
+    if (/crav|gutka|tobacco|cigarette|drink|alcohol|ગુટકા|तलब/.test(t)) return startCraving();
+    if (/report|test|tsh|b12|lithium|blood/.test(t)) return startReport();
+    if (/sleep|ઊંઘ|नींद/.test(t)) { await bot((isGujarati(text) ? '<span lang="gu">એ થાકવા જેવું છે.</span> ' : "") + "Sleep trouble is worth telling the doctor about before the next visit; it is often the first sign that a plan needs adjusting. I can note it for them now, or help you prepare a fuller summary.", 1000); chips([{ label: "Note it for the doctor", action: () => bot("Noted and sent to the review queue (demo). Until the visit, keep your medicines as prescribed and avoid caffeine after 4 pm.", 700) }, { label: "Prepare a summary", action: startIntake }]); return; }
+    await bot((isGujarati(text) ? '<span lang="gu">હું સમજ્યો.</span> ' : isHindi(text) ? '<span lang="hi">मैं समझा.</span> ' : "") + "I can help with four things: preparing for a visit, explaining your medicines, riding out a craving, and explaining a report. For anything else, I will pass your message to the clinic so a person answers. Which would you like?", 900);
+    chips([{ label: "Prepare for a visit", action: startIntake }, { label: "My medicines", action: startMeds }, { label: "Craving", action: startCraving }, { label: "A report", action: startReport }, { label: "Pass this to the clinic", action: () => bot("Done. Reception reads messages during clinic hours and replies on WhatsApp. If this cannot wait, the clinic line is open now: +91 87582 99921.", 700) }]);
+  }
+
+  form.addEventListener("submit", (e) => { e.preventDefault(); const v = input.value.trim(); if (!v || busy) return; input.value = ""; userSay(v); });
+  document.getElementById("reset").addEventListener("click", greet);
+  document.querySelectorAll("[data-scenario]").forEach((b) => b.addEventListener("click", async () => {
+    const s = b.dataset.scenario;
+    body.innerHTML = ""; flow = null; add("msg--sys", "Kiran Saathi is the clinic's AI companion, not a doctor. This demo stores nothing.");
+    document.getElementById("chat").scrollIntoView({ behavior: "smooth", block: "start" });
+    if (s === "intake") userSay("I want to prepare for my first visit", startIntake);
+    else if (s === "meds") userSay("Explain my medicines", startMeds);
+    else if (s === "craving") userSay("I have a strong craving for gutka right now", startCraving);
+    else if (s === "report") userSay("Can you explain a line from my blood report?", startReport);
+    else if (s === "crisis") userSay("I don't want to live anymore", crisis);
+  }));
+  greet();
+})();
+</script>
+</body>
+</html>
