@@ -1,10 +1,10 @@
 # Kiran Neuro-Psychiatry Care — website redesign
 
-A ground-up redesign of <https://kiranneuropsychiatrycare.com/> for Kiran Neuro-Psychiatry Care, Bhavnagar (Dr. Keyur Parmar, Dr. Vikram Zala). Static, dependency-free HTML/CSS/JS. Open `index.html` in a browser, or serve the folder with any static server.
+A ground-up redesign of <https://kiranneuropsychiatrycare.com/> for Kiran Neuro-Psychiatry Care, Bhavnagar (Dr. Keyur Parmar, Dr. Vikram Zala). Static, dependency-free HTML/CSS/JS.
 
-```
-cd kiran-neuropsychiatry-care && python3 -m http.server 8080
-```
+- **Live demo:** <https://sandspykid.github.io/kiran-neuropsychiatry-care-under-sandspykid/> (published by GitHub Pages on every push to `main`)
+- **Run locally:** `python3 -m http.server 8080` from the repo root, then open <http://localhost:8080/>
+- **Checks:** `python3 tools/tagcheck.py`, `python3 tools/linkcheck.py`, `STRICT=1 node tools/shoot.js`, `node tools/flows.js` (see `CLAUDE.md`)
 
 The site demonstrates the full product vision: public pages, a booking flow, self-check screening tools, the **Kiran Saathi** AI companion, a patient portal, and a doctor / staff console. Everything interactive runs in the browser with sample data so the experience can be reviewed end to end. Section 7 lists what a production build wires up behind each screen.
 

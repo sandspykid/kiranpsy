@@ -1,0 +1,29 @@
+name: QA
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Static checks (tag balance, links, anchors)
+        run: |
+          python3 tools/tagcheck.py
+          python3 tools/linkcheck.py
+      - name: Install Playwright
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+      - name: Render every page (desktop, phone, dark) and fail on errors or overflow
+        run: |
+          python3 -m http.server 8080 &
+          sleep 1
+          STRICT=1 node tools/shoot.js
+      - name: Interactive flows
+        run: node tools/flows.js
