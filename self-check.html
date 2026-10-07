@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Self-check · Kiran Neuro-Psychiatry Care</title>
+<meta name="description" content="Six validated screening tools scored instantly in your browser: PHQ-9 for mood, GAD-7 for anxiety, ISI for sleep, Fagerström for tobacco, AUDIT-C for alcohol and a parent-rated attention check for children. Nothing is stored unless you attach a result to a booking.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='26' r='9' fill='%23E3A23A'/%3E%3Cpath d='M20 4v7M8.3 9.3l4.9 4.9M31.7 9.3l-4.9 4.9M3 20h7M30 20h7' stroke='%23122B33' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600;700&family=Mukta+Vaani:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="self-check">
+<div id="site-header"></div>
+
+<main>
+  <!-- ============ PAGE HEAD ============ -->
+  <section class="page-head"><div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><span>Self-check</span></nav>
+    <p class="eyebrow">Screening tools, scored instantly</p>
+    <h1>Two minutes of honest answers tell you a lot.</h1>
+    <p class="lede">These are the same validated scales the doctors use at every visit, scored in your browser the moment you tap. They screen; they do not diagnose. Nothing is stored unless you choose to attach a result to a booking.</p>
+    <div class="cluster mt-3">
+      <a class="btn btn--primary btn--lg" href="#phq9">Start with mood</a>
+      <a class="btn btn--ghost btn--lg" href="saathi.html">Talk to Saathi instead</a>
+    </div>
+    <div class="cluster mt-3">
+      <span class="chip chip--gold">6 tools</span><span class="chip">About 2 minutes each</span><span class="chip">Scored on your phone</span><span class="chip">Gujarati and Hindi versions at the clinic</span>
+    </div>
+  </div></section>
+
+  <div class="wrap">
+    <div class="callout callout--info">
+      <b>Private by design</b>
+      Your ticks never leave this page. The score is worked out on your phone, not on a server, and it disappears when you close the tab. If you choose "Attach to a booking", the tool name, score and date travel with you to the booking form in this tab only, so the doctor can see it before you walk in. <b style="display:inline">Quick exit</b> in the top bar clears everything in one tap.
+    </div>
+
+    <nav class="anchor-nav mt-3" aria-label="Screening tools">
+      <a href="#phq9">Mood PHQ-9</a>
+      <a href="#gad7">Anxiety GAD-7</a>
+      <a href="#isi">Sleep ISI</a>
+      <a href="#fagerstrom">Tobacco Fagerström</a>
+      <a href="#audit">Alcohol AUDIT-C</a>
+      <a href="#child">Child attention</a>
+    </nav>
+
+    <!-- ============ PHQ-9 ============ -->
+    <section class="clinic-section">
+      <div class="card card--lift" id="phq9" data-tool="phq9" style="scroll-margin-top:calc(var(--header-h) + 72px)">
+        <div class="flex between" style="flex-wrap:wrap;gap:.5rem;align-items:flex-start">
+          <div><p class="eyebrow">Mood · PHQ-9</p><h2 style="font-size:var(--step-3)">Patient Health Questionnaire</h2></div>
+          <span class="chip">9 items · 2 min</span>
+        </div>
+        <p class="ink-2 mt-2">For anyone 18 and over who has felt low, flat, tired or hopeless lately, or whose family says they are "not themselves". Also the scale your doctor repeats at each follow-up to see whether treatment is working.</p>
+        <p class="small muted mt-1" data-bands></p>
+        <p class="mt-3" style="font-weight:600">Over the last two weeks, how often have you been bothered by any of the following problems?</p>
+        <div data-items></div>
+        <div class="cluster mt-3">
+          <button type="button" class="btn btn--primary" data-action="score">Score</button>
+          <button type="button" class="btn btn--ghost" data-action="reset">Clear</button>
+          <span class="small" style="color:var(--crimson);font-weight:600" data-missing aria-live="polite"></span>
+        </div>
+        <div class="mt-3" data-result hidden aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ============ GAD-7 ============ -->
+    <section class="clinic-section">
+      <div class="card card--lift" id="gad7" data-tool="gad7" style="scroll-margin-top:calc(var(--header-h) + 72px)">
+        <div class="flex between" style="flex-wrap:wrap;gap:.5rem;align-items:flex-start">
+          <div><p class="eyebrow">Anxiety · GAD-7</p><h2 style="font-size:var(--step-3)">Generalised Anxiety Disorder scale</h2></div>
+          <span class="chip">7 items · 1 min</span>
+        </div>
+        <p class="ink-2 mt-2">For worry that will not switch off, a racing heart for no reason, panic in the bus or the temple, or the feeling that something terrible is about to happen.</p>
+        <p class="small muted mt-1" data-bands></p>
+        <p class="mt-3" style="font-weight:600">Over the last two weeks, how often have you been bothered by the following problems?</p>
+        <div data-items></div>
+        <div class="cluster mt-3">
+          <button type="button" class="btn btn--primary" data-action="score">Score</button>
+          <button type="button" class="btn btn--ghost" data-action="reset">Clear</button>
+          <span class="small" style="color:var(--crimson);font-weight:600" data-missing aria-live="polite"></span>
+        </div>
+        <div class="mt-3" data-result hidden aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ============ ISI ============ -->
+    <section class="clinic-section">
+      <div class="card card--lift" id="isi" data-tool="isi" style="scroll-margin-top:calc(var(--header-h) + 72px)">
+        <div class="flex between" style="flex-wrap:wrap;gap:.5rem;align-items:flex-start">
+          <div><p class="eyebrow">Sleep · ISI</p><h2 style="font-size:var(--step-3)">Insomnia Severity Index</h2></div>
+          <span class="chip">7 items · 2 min</span>
+        </div>
+        <p class="ink-2 mt-2">For trouble falling asleep, staying asleep or waking too early, over the last two weeks. In Bhavnagar insomnia often follows a late dinner, the phone in bed and the afternoon nap; the doctor asks about all three.</p>
+        <p class="small muted mt-1" data-bands></p>
+        <p class="mt-3" style="font-weight:600">For the last two weeks, please rate each of the following.</p>
+        <div data-items></div>
+        <div class="cluster mt-3">
+          <button type="button" class="btn btn--primary" data-action="score">Score</button>
+          <button type="button" class="btn btn--ghost" data-action="reset">Clear</button>
+          <span class="small" style="color:var(--crimson);font-weight:600" data-missing aria-live="polite"></span>
+        </div>
+        <div class="mt-3" data-result hidden aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ============ HOW THE CLINIC USES A SCORE ============ -->
+    <section class="clinic-section">
+      <div class="split">
+        <div>
+          <p class="eyebrow">What a score is for</p>
+          <h2>A number today. A trend by the second visit.</h2>
+          <p class="lede mt-2">One score tells you where you stand. The same scale repeated before each follow-up tells the doctor whether the medicine is working, weeks before you would feel sure yourself. That is why the clinic asks for a two-minute check-in on My Care before every visit.</p>
+          <ul class="check-list mt-3">
+            <li>A drop of 5 points on PHQ-9 or GAD-7 is a real change, not noise</li>
+            <li>Below 5 on PHQ-9 held for two visits is what remission looks like on paper</li>
+            <li>A rising score between visits brings the next visit forward; you do not have to ask</li>
+          </ul>
+          <div class="cluster mt-3"><a class="btn btn--ghost" href="portal.html#journal">See check-ins on My Care</a></div>
+        </div>
+        <div class="card card--lift">
+          <div class="flex between" style="flex-wrap:wrap;gap:.5rem">
+            <div><b>GAD-7 anxiety score</b><div class="small muted">Sample patient · 4 visits over 10 weeks</div></div>
+            <span class="chip chip--sage">Improving</span>
+          </div>
+          <div id="gad-chart" class="mt-2"></div>
+          <div class="legend mt-2"><span><i class="gold"></i>GAD-7 score</span><span><i style="background:var(--sage);opacity:.5"></i>Minimal (0-4)</span><span><i style="background:var(--crimson);opacity:.5"></i>Severe (15+)</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAGERSTRÖM ============ -->
+    <section class="clinic-section">
+      <div class="card card--lift" id="fagerstrom" data-tool="fagerstrom" style="scroll-margin-top:calc(var(--header-h) + 72px)">
+        <div class="flex between" style="flex-wrap:wrap;gap:.5rem;align-items:flex-start">
+          <div><p class="eyebrow">Tobacco · Fagerström</p><h2 style="font-size:var(--step-3)">Fagerström Test for Nicotine Dependence</h2></div>
+          <span class="chip">6 items · 1 min</span>
+        </div>
+        <p class="ink-2 mt-2">For anyone who smokes cigarettes or bidis, or chews gutka, mawa or tobacco. The score says how physically dependent you are, which decides whether a plan alone will do or whether medicines should be started before your quit day.</p>
+        <p class="small muted mt-1" data-bands></p>
+        <div class="callout mt-3 small"><b>Gutka and mawa count</b>The clinic uses a smokeless-tobacco adaptation of this test for gutka and mawa: the same six questions, with "packet or pinch" in place of "cigarette". Flip the switch and the wording changes.</div>
+        <label class="switch mt-3"><input type="checkbox" data-wording>I chew gutka, mawa or tobacco rather than smoke</label>
+        <div data-items class="mt-2"></div>
+        <div class="cluster mt-3">
+          <button type="button" class="btn btn--primary" data-action="score">Score</button>
+          <button type="button" class="btn btn--ghost" data-action="reset">Clear</button>
+          <span class="small" style="color:var(--crimson);font-weight:600" data-missing aria-live="polite"></span>
+        </div>
+        <div class="mt-3" data-result hidden aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ============ AUDIT-C ============ -->
+    <section class="clinic-section">
+      <div class="card card--lift" id="audit" data-tool="audit" style="scroll-margin-top:calc(var(--header-h) + 72px)">
+        <div class="flex between" style="flex-wrap:wrap;gap:.5rem;align-items:flex-start">
+          <div><p class="eyebrow">Alcohol · AUDIT-C</p><h2 style="font-size:var(--step-3)">Alcohol Use Disorders Identification Test, short form</h2></div>
+          <span class="chip">3 items · 1 min</span>
+        </div>
+        <p class="ink-2 mt-2">For anyone who drinks, and for a family member answering on behalf of someone who does. Gujarat is a dry state; answer honestly anyway. Nothing here is stored, and the clinic is bound by confidentiality under the Mental Healthcare Act 2017.</p>
+        <p class="small muted mt-1" data-bands></p>
+        <p class="small muted mt-1">One drink is a small peg (30 ml) of whisky or rum, a 330 ml bottle of beer, or a glass of wine. Country liquor varies a lot in strength; count generously.</p>
+        <div data-items class="mt-2"></div>
+        <div class="cluster mt-3">
+          <button type="button" class="btn btn--primary" data-action="score">Score</button>
+          <button type="button" class="btn btn--ghost" data-action="reset">Clear</button>
+          <span class="small" style="color:var(--crimson);font-weight:600" data-missing aria-live="polite"></span>
+        </div>
+        <div class="mt-3" data-result hidden aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ============ CHILD ATTENTION ============ -->
+    <section class="clinic-section">
+      <div class="card card--lift" id="child" data-tool="child" style="scroll-margin-top:calc(var(--header-h) + 72px)">
+        <div class="flex between" style="flex-wrap:wrap;gap:.5rem;align-items:flex-start">
+          <div><p class="eyebrow">Child · attention check</p><h2 style="font-size:var(--step-3)">Parent-rated attention and activity screen</h2></div>
+          <span class="chip">18 items · 3 min</span>
+        </div>
+        <p class="ink-2 mt-2">For a parent of a child aged 6 to 12 whose teacher says they "do not sit still" or "do not listen". Adapted from the Vanderbilt parent scale. Answer for the last six months, comparing your child with others of the same age.</p>
+        <div class="callout callout--info mt-3 small"><b>A screening tool, not a diagnosis</b>Six or more items marked Often or Very often in either group means a full assessment at the child clinic is worth booking. Many restless children do not have ADHD; hearing, sleep, learning difficulties, anxiety and a hard year at home can all look like this. Ask the class teacher to answer the same 18 items; the doctor compares home and school.</div>
+        <p class="small muted mt-2" data-bands></p>
+        <div data-items class="mt-2"></div>
+        <div class="cluster mt-3">
+          <button type="button" class="btn btn--primary" data-action="score">Score</button>
+          <button type="button" class="btn btn--ghost" data-action="reset">Clear</button>
+          <span class="small" style="color:var(--crimson);font-weight:600" data-missing aria-live="polite"></span>
+        </div>
+        <div class="mt-3" data-result hidden aria-live="polite"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ CLOSING BAND ============ -->
+  <section class="band"><div class="section"><div class="wrap">
+    <div class="split">
+      <div>
+        <p class="eyebrow">If a score worried you</p>
+        <h2>A high number is a reason to be seen, not a verdict.</h2>
+        <p class="lede mt-2">Every one of these scales is designed to over-call rather than miss. The doctor will repeat it in person, ask what is behind the answers, and tell you plainly what it means. First visits are 30 to 40 minutes, in Gujarati, Hindi or English.</p>
+        <div class="cluster mt-3">
+          <a class="btn btn--primary" href="book.html">Book a visit</a>
+          <a class="btn btn--ghost" href="saathi.html">Talk to Saathi</a>
+          <a class="btn btn--ghost" href="book.html#video">Video follow-up</a>
+        </div>
+      </div>
+      <div class="card card--night">
+        <p class="eyebrow">If someone is unsafe right now</p>
+        <a class="big-phone" href="tel:+918758299921" style="color:var(--on-night)">+91 87582 99921</a>
+        <p class="small muted mt-1">Clinic emergency line, 24x7</p>
+        <dl class="kv mt-3" style="grid-template-columns:120px 1fr">
+          <dt class="muted">Tele-MANAS</dt><dd><a class="num" href="tel:14416">14416</a> · free, all India, Gujarati available</dd>
+          <dt class="muted">Ambulance</dt><dd><a class="num" href="tel:108">108</a></dd>
+          <dt class="muted">Police</dt><dd><a class="num" href="tel:112">112</a></dd>
+        </dl>
+        <a class="link-arrow mt-3" href="emergency.html#suicide">How to help someone who is talking about ending their life</a>
+      </div>
+    </div>
+  </div></div></section>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="assets/i18n.js"></script>
+<script src="assets/site.js"></script>
+<script>
+(function () {
+  "use strict";
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+  const isoToday = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+  const niceToday = () => new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+
+  /* ---------- shared option sets ---------- */
+  const FREQ4 = [["Not at all", 0], ["Several days", 1], ["More than half the days", 2], ["Nearly every day", 3]];
+  const SEV5 = [["None", 0], ["Mild", 1], ["Moderate", 2], ["Severe", 3], ["Very severe", 4]];
+  const DEG5 = [["Not at all", 0], ["A little", 1], ["Somewhat", 2], ["Much", 3], ["Very much", 4]];
+  const YES_NO = [["Yes", 1], ["No", 0]];
+  const KID4 = [["Never", 0], ["Occasionally", 1], ["Often", 2], ["Very often", 3]];
+
+  const CRISIS = '<div class="callout callout--crit mt-3" role="alert"><b>You answered that you have had thoughts of being better off dead, or of hurting yourself.</b>Whatever the total score says, please talk to someone today. Clinic line, 24x7: <a class="num" href="tel:+918758299921">+91 87582 99921</a> · Tele-MANAS <a class="num" href="tel:14416">14416</a>, free and in Gujarati · <a href="emergency.html#suicide">What to do right now</a>. Under the Mental Healthcare Act 2017, asking for help is a right, never a crime.</div>';
+
+  /* ---------- tool definitions: items, options, bands, meanings ----------
+     Each band is [from, to, "band in words", meter tone]. Sum scoring unless
+     the tool defines its own score() function. Items with a "key" are asked
+     but not scored (AUDIT-C uses one for sex, which sets the cut-off). */
+  const TOOLS = [
+    {
+      id: "phq9", name: "PHQ-9", max: 27, opts: FREQ4, next: ["book", "saathi"],
+      items: [
+        { q: "Little interest or pleasure in doing things" },
+        { q: "Feeling down, depressed, or hopeless" },
+        { q: "Trouble falling or staying asleep, or sleeping too much" },
+        { q: "Feeling tired or having little energy" },
+        { q: "Poor appetite or overeating" },
+        { q: "Feeling bad about yourself, or that you are a failure or have let yourself or your family down" },
+        { q: "Trouble concentrating on things, such as reading the newspaper or watching television" },
+        { q: "Moving or speaking so slowly that other people could have noticed. Or the opposite, being so fidgety or restless that you have been moving around a lot more than usual" },
+        { q: "Thoughts that you would be better off dead, or of hurting yourself in some way" }
+      ],
+      bands: [[0, 4, "minimal", "sage"], [5, 9, "mild", "gold"], [10, 14, "moderate", "amber"], [15, 19, "moderately severe", "crimson"], [20, 27, "severe", "crimson"]],
+      meaning: {
+        "minimal": "Few or no symptoms of depression over the last two weeks. If something still feels wrong, that matters more than the number: talk to someone, or check again in two weeks.",
+        "mild": "Some symptoms, probably manageable on most days. Sleep, daylight, exercise and talking help. If this is the third week like this, a visit is worth it.",
+        "moderate": "Symptoms at a level where treatment usually helps. A visit with a psychiatrist is a sensible next step, and most people at this score improve substantially.",
+        "moderately severe": "Symptoms are affecting daily life. Please book a visit this week. Depression at this level responds well to treatment, and treatment works better the sooner it starts.",
+        "severe": "This is a high score. Please book a visit as soon as possible, and if you have had any thoughts of harming yourself, call the clinic line now. This is treatable, and you do not have to carry it alone."
+      },
+      flag: { item: 9, min: 1, html: CRISIS }
+    },
+    {
+      id: "gad7", name: "GAD-7", max: 21, opts: FREQ4, next: ["book", "saathi"],
+      items: [
+        { q: "Feeling nervous, anxious, or on edge" },
+        { q: "Not being able to stop or control worrying" },
+        { q: "Worrying too much about different things" },
+        { q: "Trouble relaxing" },
+        { q: "Being so restless that it is hard to sit still" },
+        { q: "Becoming easily annoyed or irritable" },
+        { q: "Feeling afraid, as if something awful might happen" }
+      ],
+      bands: [[0, 4, "minimal", "sage"], [5, 9, "mild", "gold"], [10, 14, "moderate", "amber"], [15, 21, "severe", "crimson"]],
+      meaning: {
+        "minimal": "Few symptoms of anxiety. Ordinary worry, in other words.",
+        "mild": "Some anxiety, probably noticeable to you. Regular sleep, exercise, and cutting back on tea, coffee and tobacco all help. If it lasts past a month, book a visit.",
+        "moderate": "Anxiety at a level where treatment helps most people. Book a visit: panic attacks, phobias and constant worry are among the most treatable problems we see.",
+        "severe": "This is a high score. Please book a visit this week. Severe anxiety is exhausting, and it is very treatable."
+      }
+    },
+    {
+      id: "isi", name: "ISI", max: 28, next: ["book", "saathi"],
+      items: [
+        { q: "Difficulty falling asleep", opts: SEV5 },
+        { q: "Difficulty staying asleep", opts: SEV5 },
+        { q: "Problem waking up too early", opts: SEV5 },
+        { q: "How satisfied or dissatisfied are you with your current sleep pattern?", opts: [["Very satisfied", 0], ["Satisfied", 1], ["Moderately satisfied", 2], ["Dissatisfied", 3], ["Very dissatisfied", 4]] },
+        { q: "How noticeable to others do you think your sleep problem is, in terms of impairing the quality of your life?", opts: DEG5 },
+        { q: "How worried or distressed are you about your current sleep problem?", opts: DEG5 },
+        { q: "To what extent do you consider your sleep problem to interfere with your daily functioning (daytime fatigue, mood, concentration, memory, work or chores)?", opts: DEG5 }
+      ],
+      bands: [[0, 7, "no clinically significant insomnia", "sage"], [8, 14, "subthreshold insomnia", "gold"], [15, 21, "moderate insomnia", "amber"], [22, 28, "severe insomnia", "crimson"]],
+      meaning: {
+        "no clinically significant insomnia": "Your sleep is within the normal range. If you still feel unrefreshed, snoring, pain or a medicine may be the reason; mention it at a visit.",
+        "subthreshold insomnia": "Mild insomnia. Fix the wake-up time, no phone in bed, no afternoon nap, no chai after 6 pm, and check again in two weeks.",
+        "moderate insomnia": "Moderate insomnia. A visit to the sleep clinic is worth it: often the cause is mood, worry, pain, a medicine or a habit, and each has its own treatment.",
+        "severe insomnia": "Severe insomnia. Please book a visit. Poor sleep for this long affects mood, memory and blood pressure, and it responds to treatment."
+      }
+    },
+    {
+      id: "fagerstrom", name: "Fagerström", max: 10, next: ["quit", "book", "saathi"],
+      wording: { smoke: { u: "cigarette or bidi", uu: "cigarettes or bidis", v: "smoke" }, chew: { u: "packet or pinch", uu: "packets or pinches", v: "chew" } },
+      items: [
+        { q: "How soon after you wake up do you have your first {u}?", opts: [["Within 5 minutes", 3], ["6-30 minutes", 2], ["31-60 minutes", 1], ["After 60 minutes", 0]] },
+        { q: "Do you find it difficult not to {v} in places where it is forbidden, such as a temple, a bus, a hospital or your office?", opts: YES_NO },
+        { q: "Which {u} would you hate most to give up?", opts: [["The first one in the morning", 1], ["Any other", 0]] },
+        { q: "How many {uu} do you have in a day?", opts: [["10 or fewer", 0], ["11-20", 1], ["21-30", 2], ["31 or more", 3]] },
+        { q: "Do you {v} more in the first hours after waking than during the rest of the day?", opts: YES_NO },
+        { q: "Do you {v} even when you are so ill that you are in bed most of the day?", opts: YES_NO }
+      ],
+      bands: [[0, 2, "very low dependence", "sage"], [3, 4, "low dependence", "gold"], [5, 5, "moderate dependence", "amber"], [6, 7, "high dependence", "crimson"], [8, 10, "very high dependence", "crimson"]],
+      meaning: {
+        "very low dependence": "Very low physical dependence. The habit is mostly cue and routine. A quit-day plan, removing the supplies and the craving SOS often do the job without medicines.",
+        "low dependence": "Low dependence. A planned quit day with a quit buddy works for many people here; nicotine replacement is a reasonable back-up the doctor can advise on.",
+        "moderate dependence": "Moderate dependence. Withdrawal will be real for the first week. Nicotine replacement usually helps, and the 90-day programme keeps the quit going after it fades.",
+        "high dependence": "High dependence. Quitting without support usually fails by day 3. Medicines that reduce craving, started under the doctor before the quit day, make the difference.",
+        "very high dependence": "Very high dependence. Please do not attempt it bare-handed. Book the Day 0 assessment; with medicines and daily check-ins in week 1, this score is beaten every month at the clinic."
+      }
+    },
+    {
+      id: "audit", name: "AUDIT-C", max: 12, next: ["quit", "book", "saathi"],
+      bandsText: "Scoring: 0 non-drinker · positive screen at 4 or more for men, 3 or more for women · 8 or more suggests dependence",
+      items: [
+        { key: "sex", q: "Are you answering as a man or a woman? The cut-off differs.", opts: [["Man", "m"], ["Woman", "w"]] },
+        { q: "How often do you have a drink containing alcohol?", opts: [["Never", 0], ["Monthly or less", 1], ["2-4 times a month", 2], ["2-3 times a week", 3], ["4 or more times a week", 4]] },
+        { q: "How many drinks containing alcohol do you have on a typical day when you are drinking?", opts: [["1 or 2", 0], ["3 or 4", 1], ["5 or 6", 2], ["7 to 9", 3], ["10 or more", 4]] },
+        { q: "How often do you have six or more drinks on one occasion?", opts: [["Never", 0], ["Less than monthly", 1], ["Monthly", 2], ["Weekly", 3], ["Daily or almost daily", 4]] }
+      ],
+      score(vals, extras) {
+        const score = vals.reduce((a, b) => a + b, 0);
+        const woman = extras.sex === "w";
+        const cut = woman ? 3 : 4;
+        let band, tone, meaning;
+        if (score === 0) {
+          band = "non-drinker"; tone = "sage";
+          meaning = "You do not drink. If you answered for someone else, use their answers, not your worry; and if their drinking frightens you, the family section of the Quit programme is for you too.";
+        } else if (score >= cut) {
+          band = "positive screen"; tone = score >= 8 ? "crimson" : "amber";
+          meaning = "Above the cut-off of " + cut + " for " + (woman ? "women" : "men") + ". This pattern of drinking is likely to be harming health, sleep or mood, and may be a dependence. A visit is worth it, and if you drink daily, please do not stop suddenly on your own: withdrawal can be dangerous and the doctor can make it safe.";
+        } else {
+          band = "below the cut-off"; tone = "gold";
+          meaning = "Below the cut-off of " + cut + " for " + (woman ? "women" : "men") + ". Drinking at a level that is less likely to be harmful, though in a dry state any drinking carries legal and supply risks. If the amount is creeping up, that is the time to talk.";
+        }
+        return { score, max: 12, band, tone, pct: (score / 12) * 100, meaning, scoreText: score + " of 12" };
+      }
+    },
+    {
+      id: "child", name: "Child attention check", max: 9, opts: KID4, next: ["book", "saathi"],
+      bandsText: "Scoring: count items marked Often or Very often in each group · 6 or more of 9 in either group suggests a full assessment · ages 6-12 · a screening tool, not a diagnosis",
+      groups: [
+        { label: "Inattention", items: [
+          { q: "Does not pay attention to details, or makes careless mistakes with homework" },
+          { q: "Has difficulty keeping attention on what needs to be done" },
+          { q: "Does not seem to listen when spoken to directly" },
+          { q: "Does not follow through on instructions and fails to finish schoolwork or chores (not because of refusal or not understanding)" },
+          { q: "Has difficulty organising tasks and activities" },
+          { q: "Avoids, dislikes or is reluctant to start tasks that need sustained mental effort, such as homework" },
+          { q: "Loses things needed for tasks or activities: pencils, books, assignments, toys" },
+          { q: "Is easily distracted by noises or other things going on" },
+          { q: "Is forgetful in daily activities" }
+        ] },
+        { label: "Hyperactivity and impulsivity", items: [
+          { q: "Fidgets with hands or feet, or squirms in the seat" },
+          { q: "Leaves the seat when staying seated is expected" },
+          { q: "Runs about or climbs on things when it is not appropriate" },
+          { q: "Has difficulty playing or beginning quiet play activities" },
+          { q: "Is \"on the go\", or acts as if \"driven by a motor\"" },
+          { q: "Talks too much" },
+          { q: "Blurts out answers before the question has been completed" },
+          { q: "Has difficulty waiting for his or her turn" },
+          { q: "Interrupts or intrudes on others' conversations or games" }
+        ] }
+      ],
+      score(vals) {
+        const ia = vals.slice(0, 9).filter((v) => v >= 2).length;
+        const hi = vals.slice(9, 18).filter((v) => v >= 2).length;
+        const pos = ia >= 6 || hi >= 6;
+        const meaning = pos
+          ? "Six or more items in " + (ia >= 6 && hi >= 6 ? "both groups" : ia >= 6 ? "the inattention group" : "the hyperactivity group") + " are marked Often or Very often. That is the level at which a full assessment at the child clinic is worth booking: a 40-minute visit with you and your child, the teacher's answers to the same questions, and a plain explanation of what is and is not going on. This is a screen; many children at this score do not have ADHD."
+          : "Fewer than six items in each group are marked Often or Very often. That is below the screening threshold for ADHD. If school, sleep or temper are still a worry, the child clinic sees plenty of children who screen negative here and need help with something else.";
+        return { score: ia + "/9 inattention, " + hi + "/9 hyperactivity", max: 9, band: pos ? "suggests a full assessment" : "below the screening threshold", tone: pos ? "amber" : "sage", pct: (Math.max(ia, hi) / 9) * 100, meaning, scoreText: ia + " and " + hi, scoreLabel: "of 9 inattention items, of 9 hyperactivity items marked Often or Very often" };
+      }
+    }
+  ];
+
+  const NEXT = { book: ["Book a visit", "book.html", "btn btn--primary"], saathi: ["Talk to Saathi", "saathi.html", "btn btn--ghost"], quit: ["Quit with Kiran", "deaddiction.html", "btn btn--primary"] };
+
+  /* ---------- rendering ---------- */
+  function allItems(tool) { return tool.groups ? tool.groups.flatMap((g) => g.items) : tool.items; }
+  function qText(tool, item) {
+    let q = item.q;
+    if (tool.wording) { const w = tool.wording[tool.mode || "smoke"]; q = q.replace(/\{(\w+)\}/g, (m, k) => w[k] || m); }
+    return q;
+  }
+  function bandsLine(tool) {
+    if (tool.bandsText) return tool.bandsText;
+    return "Scoring: " + tool.bands.map((b) => (b[0] === b[1] ? b[0] : b[0] + "-" + b[1]) + " " + b[2]).join(" · ") + " · out of " + tool.max;
+  }
+  function render(tool) {
+    const card = document.getElementById(tool.id);
+    const host = $("[data-items]", card);
+    const bandsEl = $("[data-bands]", card);
+    if (bandsEl) bandsEl.textContent = bandsLine(tool);
+    const groups = tool.groups || [{ items: tool.items }];
+    let n = 0, html = "";
+    groups.forEach((g) => {
+      if (g.label) html += '<h3 class="mt-3" style="font-size:var(--step-1)">' + esc(g.label) + "</h3>";
+      g.items.forEach((item) => {
+        n += 1;
+        const opts = item.opts || tool.opts;
+        html += '<div class="scale-q" data-q="' + n + '"><p><span class="muted num">' + n + '.</span> <span data-qtext>' + esc(qText(tool, item)) + "</span></p>"
+          + '<div class="scale-opts"' + (opts.length > 4 ? ' style="grid-template-columns:repeat(auto-fit,minmax(96px,1fr))"' : "") + ">"
+          + opts.map((o) => '<label><input type="radio" name="' + tool.id + "-" + n + '" value="' + esc(o[1]) + '">' + esc(o[0]) + "</label>").join("")
+          + "</div></div>";
+      });
+    });
+    host.innerHTML = html;
+    host.addEventListener("change", (e) => {
+      const q = e.target.closest(".scale-q"); if (q) { q.style.boxShadow = ""; q.style.borderRadius = ""; q.style.paddingInline = ""; }
+      $("[data-missing]", card).textContent = "";
+    });
+    $('[data-action="score"]', card).addEventListener("click", () => scoreTool(tool));
+    $('[data-action="reset"]', card).addEventListener("click", () => resetTool(tool));
+    const wording = $("[data-wording]", card);
+    if (wording) wording.addEventListener("change", () => {
+      tool.mode = wording.checked ? "chew" : "smoke";
+      const items = allItems(tool);
+      $$("[data-qtext]", host).forEach((el, i) => { el.textContent = qText(tool, items[i]); });
+    });
+  }
+
+  /* ---------- scoring ---------- */
+  function readAnswers(tool) {
+    const card = document.getElementById(tool.id);
+    const items = allItems(tool);
+    const vals = [], extras = {}, missing = [];
+    items.forEach((item, i) => {
+      const n = i + 1;
+      const sel = $('input[name="' + tool.id + "-" + n + '"]:checked', card);
+      if (!sel) { missing.push(n); return; }
+      if (item.key) extras[item.key] = sel.value; else vals.push(Number(sel.value));
+    });
+    return { vals, extras, missing };
+  }
+  function sumScore(tool, vals) {
+    const score = vals.reduce((a, b) => a + b, 0);
+    const b = tool.bands.find((x) => score >= x[0] && score <= x[1]) || tool.bands[tool.bands.length - 1];
+    return { score, max: tool.max, band: b[2], tone: b[3], pct: (score / tool.max) * 100, meaning: tool.meaning[b[2]], scoreText: score + " of " + tool.max };
+  }
+  function scoreTool(tool) {
+    const card = document.getElementById(tool.id);
+    const missingEl = $("[data-missing]", card);
+    const { vals, extras, missing } = readAnswers(tool);
+    $$(".scale-q", card).forEach((q) => { q.style.boxShadow = ""; q.style.borderRadius = ""; q.style.paddingInline = ""; });
+    if (missing.length) {
+      missingEl.textContent = "Please answer " + (missing.length === 1 ? "question " : "questions ") + missing.join(", ") + ".";
+      missing.forEach((n) => { const q = $('.scale-q[data-q="' + n + '"]', card); q.style.boxShadow = "var(--ring)"; q.style.borderRadius = "10px"; q.style.paddingInline = ".6rem"; });
+      $('.scale-q[data-q="' + missing[0] + '"]', card).scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    missingEl.textContent = "";
+    const r = tool.score ? tool.score(vals, extras) : sumScore(tool, vals);
+    if (tool.flag) { const v = vals[tool.flag.item - 1]; r.flag = v >= tool.flag.min ? tool.flag.html : ""; }
+    showResult(tool, r);
+  }
+  function resetTool(tool) {
+    const card = document.getElementById(tool.id);
+    $$("input[type=radio]", card).forEach((i) => { i.checked = false; });
+    $$(".scale-q", card).forEach((q) => { q.style.boxShadow = ""; q.style.borderRadius = ""; q.style.paddingInline = ""; });
+    $("[data-missing]", card).textContent = "";
+    const panel = $("[data-result]", card); panel.hidden = true; panel.innerHTML = "";
+    card.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  function showResult(tool, r) {
+    const card = document.getElementById(tool.id);
+    const panel = $("[data-result]", card);
+    const result = { tool: tool.name, score: r.score, band: r.band, date: isoToday() };
+    const copy = tool.name + " self-check, " + niceToday() + ": " + r.scoreText + (r.scoreLabel ? " " + r.scoreLabel : "") + ", " + r.band + ". Screening only, not a diagnosis. Kiran Neuro-Psychiatry Care, Bhavnagar.";
+    panel.dataset.bandValue = r.band;
+    panel.innerHTML = '<div class="card card--flat">'
+      + '<div class="grid grid-2" style="align-items:center;gap:1rem">'
+      + '<div class="stat"><b class="num" data-total>' + esc(r.scoreText) + "</b><span>" + esc(r.scoreLabel || "total score") + "</span></div>"
+      + '<div><span class="chip chip--' + r.tone + '" data-band>' + esc(cap(r.band)) + '</span><div class="meter mt-2" aria-hidden="true"><i class="' + r.tone + '" style="width:' + Math.max(2, Math.round(r.pct)) + '%"></i></div></div>'
+      + "</div>"
+      + '<p class="mt-3 ink-2" data-meaning>' + esc(r.meaning) + "</p>"
+      + (r.flag || "")
+      + '<div class="cluster mt-3">' + tool.next.map((k) => '<a class="' + NEXT[k][2] + '" href="' + NEXT[k][1] + '">' + NEXT[k][0] + "</a>").join("") + "</div>"
+      + '<hr style="margin:1.2rem 0">'
+      + '<div class="cluster"><label class="switch"><input type="checkbox" data-attach>Attach to a booking</label><button type="button" class="btn btn--sm btn--ink" data-book-with>Book with this result</button><button type="button" class="btn btn--sm" data-copy-result>Copy result</button></div>'
+      + '<p class="help mt-2">Attaching keeps the tool name, score, band and date in this tab only, so the booking form can show it to the doctor. Close the tab and it is gone.</p>'
+      + "</div>";
+    panel.hidden = false;
+    $("[data-book-with]", panel).addEventListener("click", () => {
+      if ($("[data-attach]", panel).checked) {
+        try { sessionStorage.setItem("kiran.selfcheck", JSON.stringify(result)); } catch (e) { /* private mode */ }
+      }
+      location.href = "book.html";
+    });
+    $("[data-copy-result]", panel).addEventListener("click", (ev) => copyText(copy, ev.currentTarget));
+    panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  TOOLS.forEach(render);
+
+  /* ---------- sample trend chart ---------- */
+  document.getElementById("gad-chart").innerHTML = KIRAN_CHART.line({
+    series: [{ values: [16, 12, 8, 4], cls: "line line--gold", label: "GAD-7" }],
+    labels: ["Visit 1", "Week 3", "Week 6", "Week 10"],
+    max: 21, ticks: [0, 5, 10, 15, 21], threshold: 10,
+    bands: [{ from: 0, to: 4, cls: "band-ok" }, { from: 15, to: 21, cls: "band-crit" }],
+    aria: "GAD-7 score falling from 16 to 4 across four visits over ten weeks"
+  });
+})();
+</script>
+</body>
+</html>
