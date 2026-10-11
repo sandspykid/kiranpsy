@@ -495,14 +495,18 @@ details.acc summary::after { content: "+"; font-size: 1.4rem; color: var(--gold-
 details.acc[open] summary::after { transform: rotate(45deg); }
 details.acc .acc-body { padding: 0 0 1.2rem; color: var(--ink-2); max-width: 70ch; }
 
-/* ---------- myths flip ---------- */
-.myth { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 1.2rem; display: grid; gap: .6rem; cursor: pointer; position: relative; min-height: 150px; }
-.myth .label { font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--crimson); }
-.myth .fact { display: none; }
-.myth.flipped .label { color: var(--sage); }
-.myth.flipped .claim { display: none; }
-.myth.flipped .fact { display: block; }
-.myth .hint { font-size: .78rem; color: var(--muted); margin-top: auto; }
+/* ---------- myths flip (3D, one card at a time) ---------- */
+.myth { perspective: 1400px; cursor: pointer; min-width: 0; border-radius: var(--radius); display: grid; }
+.myth-inner { display: grid; position: relative; transform-style: preserve-3d; transition: transform .65s var(--ease); }
+.myth-face { grid-area: 1 / 1; display: flex; flex-direction: column; gap: .6rem; padding: 1.2rem; min-height: 150px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.myth-face .label { font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--crimson); }
+.myth-face .hint { font-size: .78rem; color: var(--muted); margin-top: auto; }
+.myth-back { transform: rotateY(180deg); background: var(--sage-soft); border-color: transparent; }
+.myth-back .label { color: var(--sage); }
+.myth:hover .myth-inner { transform: rotateY(-6deg); }
+.myth.flipped .myth-inner, .myth.flipped:hover .myth-inner { transform: rotateY(180deg); }
+.myth:focus-visible { outline: none; box-shadow: var(--ring); }
+@media (prefers-reduced-motion: reduce) { .myth:hover .myth-inner { transform: none; } }
 
 /* ---------- charts ---------- */
 .chart { width: 100%; height: auto; display: block; }

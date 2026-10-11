@@ -323,7 +323,13 @@
     document.querySelectorAll("[data-queue]").forEach((el) => { renderQueue(el); setInterval(() => renderQueue(el), 30000); });
     document.addEventListener("kiran:lang", () => document.querySelectorAll("[data-queue]").forEach(renderQueue));
     document.querySelectorAll("[data-copy]").forEach((b) => b.addEventListener("click", () => window.copyText(b.getAttribute("data-copy"), b)));
-    document.querySelectorAll(".myth").forEach((m) => { m.setAttribute("tabindex", "0"); m.setAttribute("role", "button"); const flip = () => m.classList.toggle("flipped"); m.addEventListener("click", flip); m.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } }); });
+    // Myth cards: each card flips on its own; nothing else on the page reacts.
+    document.querySelectorAll(".myth").forEach((m) => {
+      m.setAttribute("tabindex", "0"); m.setAttribute("role", "button"); m.setAttribute("aria-pressed", "false");
+      const flip = () => { const on = m.classList.toggle("flipped"); m.setAttribute("aria-pressed", String(on)); };
+      m.addEventListener("click", flip);
+      m.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } });
+    });
     document.querySelectorAll("[data-tabs]").forEach((group) => {
       const tabs = group.querySelectorAll("[role=tab]");
       tabs.forEach((tab) => tab.addEventListener("click", () => {
