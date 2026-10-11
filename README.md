@@ -2,7 +2,7 @@
 
 A ground-up redesign of <https://kiranneuropsychiatrycare.com/> for Kiran Neuro-Psychiatry Care, Bhavnagar (Dr. Keyur Parmar, Dr. Vikram Zala). Static, dependency-free HTML/CSS/JS.
 
-- **Live demo:** <https://sandspykid.github.io/kiran-neuropsychiatry-care-under-sandspykid/> (published by GitHub Pages on every push to `main`)
+- **Live demo:** <https://sandspykid.github.io/kiranpsy/> (published by GitHub Pages on every push to `main`)
 - **Run locally:** `python3 -m http.server 8080` from the repo root, then open <http://localhost:8080/>
 - **Checks:** `python3 tools/tagcheck.py`, `python3 tools/linkcheck.py`, `STRICT=1 node tools/shoot.js`, `node tools/flows.js` (see `CLAUDE.md`)
 

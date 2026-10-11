@@ -1,5 +1,9 @@
 name: Deploy to GitHub Pages
 
+# GitHub Pages publishes from a public repository on the Free plan (and from
+# private repositories on Pro, Team and Enterprise). The job skips itself while
+# the repository is private, and runs on the next push once it is public.
+
 on:
   push:
     branches: [main]
@@ -16,10 +20,8 @@ concurrency:
 
 jobs:
   deploy:
+    if: ${{ github.event.repository.private == false }}
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - name: Configure Pages
@@ -33,3 +35,5 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Show the live URL
+        run: echo "Published at ${{ steps.deployment.outputs.page_url }}" >> "$GITHUB_STEP_SUMMARY"
