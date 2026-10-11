@@ -41,13 +41,11 @@
             <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="trust.emergency">Emergency line 24x7</span></span>
             <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="trust.lang">Gujarati · Hindi · English</span></span>
           </div>
+          <p class="privacy-line mt-3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Nothing on this site asks who you are until you choose to book. The <b>Quick exit</b> button in the top bar replaces this page with a weather report in one tap.</span></p>
         </div>
-        <div class="stack">
-          <div class="queue-card" data-queue aria-live="polite"></div>
-          <div class="card card--flat small" style="display:flex;gap:.8rem;align-items:flex-start">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="var(--sage)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:2px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span class="ink-2">Nothing on this site asks who you are until you choose to book. The <b>Quick exit</b> button in the top bar replaces this page with a weather report in one tap.</span>
-          </div>
+        <div class="hero-art">
+          <div class="illus"><img src="assets/img/illus-dawn.webp" alt="A family of three walking toward the clinic building as the sun rises" width="1200" height="884" fetchpriority="high"></div>
+          <div class="queue-card hero-queue" data-queue aria-live="polite"></div>
         </div>
       </div>
     </div>
@@ -127,6 +125,7 @@
             <a class="btn btn--primary" href="book.html">Book your first visit</a>
             <a class="btn btn--ghost" href="resources.html#faq">Read the FAQ</a>
           </div>
+          <div class="illus mt-4"><img src="assets/img/illus-first-visit.webp" alt="A doctor listening across a desk to a young woman and her mother in morning light" width="1200" height="884" loading="lazy"></div>
         </div>
         <div class="steps">
           <div class="step"><div><h4>Book online, or walk in</h4><p>Pick a doctor and a time. You get a token and an "arrive by" time, so you are not sitting in a waiting room for an hour.</p><p class="step-meta">2 minutes · no account needed</p></div></div>
@@ -151,7 +150,7 @@
       </div>
       <div class="grid grid-2">
         <div class="card card--lift doctor">
-          <div class="avatar" aria-hidden="true">KP</div>
+          <img class="avatar avatar--photo" src="assets/img/dr-parmar.webp" alt="Dr. Keyur Parmar" width="112" height="112" loading="lazy">
           <div>
             <h3>Dr. Keyur Parmar</h3>
             <p class="creds">MBBS, MD Psychiatry (B.J. Medical College, Ahmedabad) · Gold medallist · Consultant, Sterling Hospital Bhavnagar 2012-15 · Gujarat Medical Council G-19082</p>
@@ -164,7 +163,7 @@
           </div>
         </div>
         <div class="card card--lift doctor">
-          <div class="avatar" aria-hidden="true">VZ</div>
+          <img class="avatar avatar--photo" src="assets/img/dr-zala.webp" alt="Dr. Vikram Zala" width="112" height="112" loading="lazy">
           <div>
             <h3>Dr. Vikram Zala</h3>
             <p class="creds">MBBS (Government Medical College, Bhavnagar) · DPM Neuro-Psychiatry (B.J. Medical College, Ahmedabad) · Consultant since 2022</p>
@@ -243,10 +242,13 @@
   <!-- ============ FAMILY + RIGHTS ============ -->
   <section class="section">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow" data-i18n="sec.family.eyebrow">Family Circle</p>
-        <h2 data-i18n="sec.family.title">Care that includes the people who care.</h2>
-        <p class="lede">In Bhavnagar, a mother, a spouse or a son usually holds the medicines and watches for the warning signs. We built for that, with the patient in control of who sees what.</p>
+      <div class="split" style="margin-bottom:clamp(1.6rem,3vw,2.6rem)">
+        <div class="section-head" style="margin-bottom:0">
+          <p class="eyebrow" data-i18n="sec.family.eyebrow">Family Circle</p>
+          <h2 data-i18n="sec.family.title">Care that includes the people who care.</h2>
+          <p class="lede">In Bhavnagar, a mother, a spouse or a son usually holds the medicines and watches for the warning signs. We built for that, with the patient in control of who sees what.</p>
+        </div>
+        <div class="illus"><img src="assets/img/illus-family.webp" alt="An elderly father and his son at a kitchen table with a pill organiser and a phone" width="1200" height="884" loading="lazy"></div>
       </div>
       <div class="grid grid-3">
         <div class="card">
@@ -282,11 +284,14 @@
             <p class="lede mt-2">Gutka, mawa, bidi, alcohol. Saurashtra's addictions are everyday habits with deep roots. Our programme pairs medicine with a quit-day plan, daily check-ins, craving SOS on your phone, a family pledge, and follow-ups on video so distance is never the reason to drop out.</p>
             <div class="cluster mt-3"><a class="btn btn--primary" href="deaddiction.html">Start the programme</a><a class="btn btn--ghost" href="deaddiction.html#schools">Invite us to your school or college</a></div>
           </div>
+          <div class="stack">
+          <figure class="figure"><div class="photo photo--wide"><img src="assets/img/mission-seminar.webp" alt="Dr. Keyur Parmar speaking at a school programme in Bhavnagar" width="600" height="600" loading="lazy"></div><figcaption>Dr. Parmar at a Mission Deaddiction session in a Bhavnagar school.</figcaption></figure>
           <div class="numbers">
             <div class="stat"><b>50+</b><span>awareness programmes in schools and colleges</span></div>
             <div class="stat"><b>90</b><span>days of structured support after the quit day</span></div>
             <div class="stat"><b>3 min</b><span>craving SOS, any time, on your phone</span></div>
             <div class="stat"><b>1</b><span>family pledge that doubles the chance you stay quit</span></div>
+          </div>
           </div>
         </div>
       </div>
@@ -365,24 +370,12 @@
             <a class="btn btn--whatsapp" href="https://wa.me/918758299921" target="_blank" rel="noopener" data-i18n="cta.whatsapp">WhatsApp us</a>
           </div>
         </div>
-        <div class="map-box" aria-label="Stylised map of the clinic location on Jail Road, Bhavnagar">
-          <svg viewBox="0 0 520 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <rect width="520" height="320" fill="var(--bg-2)"/>
-            <g stroke="var(--surface)" stroke-width="14" stroke-linecap="round" fill="none">
-              <path d="M-10 90 Q 180 110 520 70"/><path d="M60 -10 Q 90 160 40 330"/><path d="M-10 230 L 530 250"/><path d="M300 -10 L 330 330"/><path d="M420 -10 L 400 330"/>
-            </g>
-            <g stroke="var(--line-strong)" stroke-width="1.5" fill="none" opacity=".7">
-              <path d="M-10 90 Q 180 110 520 70"/><path d="M60 -10 Q 90 160 40 330"/><path d="M-10 230 L 530 250"/><path d="M300 -10 L 330 330"/><path d="M420 -10 L 400 330"/>
-            </g>
-            <text x="150" y="80" fill="var(--muted)" font-size="11" font-weight="700" transform="rotate(-3 150 80)">JAIL ROAD</text>
-            <text x="340" y="300" fill="var(--muted)" font-size="11" font-weight="700" transform="rotate(86 340 300)">STATION ROAD</text>
-            <rect x="196" y="140" width="80" height="60" rx="6" fill="var(--sky-soft)" stroke="var(--sky)"/>
-            <text x="236" y="176" text-anchor="middle" fill="var(--sky)" font-size="10" font-weight="700">A DIVISION</text>
-            <text x="236" y="188" text-anchor="middle" fill="var(--sky)" font-size="10" font-weight="700">POLICE STN</text>
-            <circle cx="236" cy="112" r="26" fill="var(--gold)" opacity=".25"/>
-            <circle cx="236" cy="112" r="9" fill="var(--gold)" stroke="var(--surface)" stroke-width="3"/>
-          </svg>
-          <div class="pin"><b>Kiran Neuro-Psychiatry Care</b><br>Samved Complex, 3rd floor, rooms 309/310. Lift available. Two-wheeler parking in front.</div>
+        <div class="stack">
+          <figure class="figure"><div class="photo photo--wide"><img src="assets/img/clinic-sign.webp" alt="The clinic signboard on the front of Samved Complex, Jail Road" width="673" height="494" loading="lazy"></div><figcaption>Samved Complex, 3rd floor, rooms 309 and 310. Lift available. Two-wheeler parking in front.</figcaption></figure>
+          <div class="photo-grid photo-grid--2">
+            <div class="photo"><img src="assets/img/clinic-building.webp" alt="Samved Complex building seen from Jail Road" width="600" height="600" loading="lazy"></div>
+            <div class="photo"><img src="assets/img/illus-first-visit.webp" alt="Illustration of a consultation: a doctor listening to a young woman and her mother" width="1200" height="884" loading="lazy"></div>
+          </div>
         </div>
       </div>
     </div>

@@ -18,7 +18,9 @@ node tools/flows.js                  # drives booking, Saathi, portal, console a
 
 | File | Purpose |
 |---|---|
-| `index.html` | Home |
+| `index.html` | Home (brand-led hero with the dawn illustration) |
+| `index-doctors.html` | Home variant with a doctor-led hero and a reputation section in place of the doctor cards; every other section is identical to `index.html`, so a change to a shared section must be made in both files |
+| `assets/img/` | Photos (doctors, clinic, press) and generated illustrations as WebP; see README section 10 for provenance |
 | `conditions.html` | Ten specialty clinics plus a section for families; anchors `#mood #anxiety #psychosis #deaddiction #child #sexual-health #epilepsy #sleep #headache #geriatric #for-families` |
 | `doctors.html` | Profiles, anchors `#parmar #zala` |
 | `book.html` | Six-step booking wizard, live token queue, `#private` consult mode, `#video` |
@@ -39,7 +41,7 @@ node tools/flows.js                  # drives booking, Saathi, portal, console a
 
 - Every page uses the same head and skeleton as `index.html`: fonts link, `assets/site.css`, `<div id="site-header">`, `<main>`, `<footer id="site-footer">`, then `assets/i18n.js` and `assets/site.js`, then the page script. Put `data-page` on `body`.
 - Use the classes in `assets/site.css`. Add page-level CSS only for something the system genuinely lacks, and only with CSS variables, never literal colours.
-- No external images, iframes or scripts. Icons are inline SVG on a 24px grid with `stroke="currentColor"`.
+- No external images, iframes or scripts. Icons are inline SVG on a 24px grid with `stroke="currentColor"`. Site images live in `assets/img/` as WebP; place them with `.illus` (generated illustrations), `.photo` / `.figure` (photographs) or `.avatar--photo` (portraits), and give every `<img>` width, height and alt. Keep `emergency.html` free of images.
 - Copy is plain, warm and specific. No em-dashes, no lorem ipsum, no "coming soon". Clinical text names no doses and makes no diagnosis claims. Sample data is labelled as sample.
 - Internal links point only at the pages and anchors listed above. Run `tools/linkcheck.py` after adding links.
 - Forms never navigate: use `data-demo="message"` (site.js shows a toast) or your own `submit` handler with `preventDefault()`.

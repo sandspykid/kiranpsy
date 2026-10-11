@@ -184,7 +184,23 @@ Recommended stack for production: Claude (claude-fable-5-1 for reasoning-heavy d
 
 ---
 
-## 9. Roadmap after launch
+## 9. Two home pages
+
+`index.html` opens with the brand idea (a ray of light, the dawn illustration, the live queue). `index-doctors.html` opens with the doctors themselves: their photograph, credentials and standing in Bhavnagar, with a reputation section in the slot where the first page shows the doctor cards. Everything below the hero is the same sequence on both pages, so the clinic can choose either without losing a feature. Both are published as separate artifacts for comparison.
+
+## 10. Imagery and provenance
+
+| File | Source |
+|---|---|
+| `assets/img/doctors-duo*.webp`, `dr-zala.webp` | The doctors' joint photograph from the clinic's current website; the cutout and individual crops were made from it |
+| `assets/img/dr-parmar.webp` | Dr. Keyur Parmar's portrait from the clinic's Drlogy listing |
+| `assets/img/clinic-sign.webp` | Clinic signboard photograph from the Drlogy listing, cropped |
+| `assets/img/clinic-building.webp`, `mission-seminar.webp`, `press-clipping.webp` | Gallery photographs from the clinic's current website |
+| `assets/img/illus-*.webp` | Editorial illustrations generated with Higgsfield (Recraft V4.1) on the site palette, one consistent style, no text |
+
+Before launch the clinic should supply original high-resolution photographs of both doctors, the reception and the EEG room; the generated illustrations are final artwork and can stay.
+
+## 11. Roadmap after launch
 
 1. Connect booking to the clinic calendar and WhatsApp Business.
 2. Launch My Care for follow-up patients first (the drop-out problem), caregivers second.
