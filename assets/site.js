@@ -342,12 +342,14 @@
     document.addEventListener("kiran:lang", () => document.querySelectorAll("[data-queue]").forEach(renderQueue));
     document.querySelectorAll("[data-copy]").forEach((b) => b.addEventListener("click", () => window.copyText(b.getAttribute("data-copy"), b)));
     // Myth cards: each card flips on its own; nothing else on the page reacts.
-    document.querySelectorAll(".myth").forEach((m) => {
-      m.setAttribute("tabindex", "0"); m.setAttribute("role", "button"); m.setAttribute("aria-pressed", "false");
-      const flip = () => { const on = m.classList.toggle("flipped"); m.setAttribute("aria-pressed", String(on)); };
-      m.addEventListener("click", flip);
-      m.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } });
-    });
+    // The listeners sit on the document, so the flip survives a card being re-rendered or replaced.
+    const prepMyth = (m) => { m.setAttribute("tabindex", "0"); m.setAttribute("role", "button"); m.setAttribute("aria-pressed", m.classList.contains("flipped") ? "true" : "false"); };
+    const flipMyth = (m) => { const on = m.classList.toggle("flipped"); m.setAttribute("aria-pressed", String(on)); };
+    const mythFrom = (e) => (e.target && e.target.closest) ? e.target.closest(".myth") : null;
+    document.querySelectorAll(".myth").forEach(prepMyth);
+    document.addEventListener("click", (e) => { const m = mythFrom(e); if (m) flipMyth(m); });
+    document.addEventListener("keydown", (e) => { if (e.key !== "Enter" && e.key !== " ") return; const m = mythFrom(e); if (!m || m !== e.target) return; e.preventDefault(); flipMyth(m); });
+    if (window.MutationObserver) new MutationObserver((muts) => muts.forEach((mu) => mu.addedNodes.forEach((n) => { if (n.nodeType !== 1) return; if (n.matches && n.matches(".myth")) prepMyth(n); if (n.querySelectorAll) n.querySelectorAll(".myth").forEach(prepMyth); }))).observe(document.body, { childList: true, subtree: true });
     document.querySelectorAll("[data-tabs]").forEach((group) => {
       const tabs = group.querySelectorAll("[role=tab]");
       tabs.forEach((tab) => tab.addEventListener("click", () => {

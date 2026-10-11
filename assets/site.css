@@ -480,17 +480,20 @@ details.acc[open] summary::after { transform: rotate(45deg); }
 details.acc .acc-body { padding: 0 0 1.2rem; color: var(--ink-2); max-width: 70ch; }
 
 /* ---------- myths flip (3D, one card at a time) ---------- */
-.myth { perspective: 1400px; cursor: pointer; min-width: 0; border-radius: var(--radius); display: grid; }
-.myth-inner { display: grid; position: relative; transform-style: preserve-3d; transition: transform .65s var(--ease); }
+.myth { perspective: 1400px; -webkit-perspective: 1400px; cursor: pointer; min-width: 0; border-radius: var(--radius); display: grid; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+.myth-inner { display: grid; position: relative; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; transition: transform .65s var(--ease); will-change: transform; transform: rotateY(0deg); }
 .myth-face { grid-area: 1 / 1; display: flex; flex-direction: column; gap: .6rem; padding: 1.2rem; min-height: 150px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 .myth-face .label { font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--crimson); }
 .myth-face .hint { font-size: .78rem; color: var(--muted); margin-top: auto; }
-.myth-back { transform: rotateY(180deg); background: var(--sage-soft); border-color: transparent; }
+/* Each face sits 1px in front of its own side so depth sorting never shows the wrong face mid-turn (Safari). */
+.myth-front { transform: rotateY(0deg) translateZ(1px); }
+.myth-back { transform: rotateY(180deg) translateZ(1px); background: var(--sage-soft); border-color: transparent; }
 .myth-back .label { color: var(--sage); }
-.myth:hover .myth-inner { transform: rotateY(-6deg); }
+@media (hover: hover) { .myth:hover .myth-inner { transform: rotateY(-6deg); } }
 .myth.flipped .myth-inner, .myth.flipped:hover .myth-inner { transform: rotateY(180deg); }
 .myth:focus-visible { outline: none; box-shadow: var(--ring); }
-@media (prefers-reduced-motion: reduce) { .myth:hover .myth-inner { transform: none; } }
+/* The flip is the one transition that stays on under reduced motion, shortened; without it the card would snap between faces with no cue. */
+@media (prefers-reduced-motion: reduce) { .myth:hover .myth-inner { transform: rotateY(0deg); } .myth-inner { transition: transform .3s ease !important; } }
 
 /* ---------- charts ---------- */
 .chart { width: 100%; height: auto; display: block; }
