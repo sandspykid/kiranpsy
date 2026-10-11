@@ -66,23 +66,7 @@
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0F1F26; --bg-2: #142A32; --surface: #16303A; --surface-2: #1B3842;
-    --ink: #EAF0EE; --ink-2: #C7D5D2; --muted: #93A9A6; --line: #27454F; --line-strong: #3A5D69;
-    --gold: #F0B254; --gold-2: #F6C777; --gold-text: #F0B254; --gold-soft: #3A2E17;
-    --rose: #D98A75; --rose-soft: #3B2822;
-    --sky: #7FB4D8; --sky-soft: #1C3A4C;
-    --sage: #6FC39F; --sage-soft: #173A2E;
-    --amber: #F0A64B; --amber-soft: #3E2C12;
-    --crimson: #F08A7C; --crimson-soft: #46201B;
-    --night: #0A161B; --night-2: #10242C; --on-night: #EAF0EE; --on-night-muted: #93A9A6;
-    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 14px 36px -16px rgba(0,0,0,.6);
-    --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
-    --ring: 0 0 0 3px rgba(240,178,84,.5);
-    color-scheme: dark;
-  }
-}
+/* Dark values apply only when the visitor chooses dark with the toggle; light is the default on every device. */
 :root[data-theme="dark"] {
   --bg: #0F1F26; --bg-2: #142A32; --surface: #16303A; --surface-2: #1B3842;
   --ink: #EAF0EE; --ink-2: #C7D5D2; --muted: #93A9A6; --line: #27454F; --line-strong: #3A5D69;

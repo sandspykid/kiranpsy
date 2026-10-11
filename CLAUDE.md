@@ -33,8 +33,8 @@ node tools/flows.js                  # drives booking, Saathi, portal, console a
 | `contact.html` | Contact, map, referral form |
 | `portal.html` | My Care patient portal demo (views `#today #meds #journal #trends #docs #messages #family #settings`) |
 | `clinic.html` | Doctor and staff console demo |
-| `assets/site.css` | The design system. All colour comes from tokens on `:root` with dark values under `prefers-color-scheme` and `[data-theme="dark"]` |
-| `assets/site.js` | Injects the emergency strip, header, drawer and footer into `#site-header` / `#site-footer`; language switch; theme; Quick exit; live queue simulation on India time; `KIRAN_CHART` SVG helpers; `toast()`, `copyText()` |
+| `assets/site.css` | The design system. All colour comes from tokens on `:root`; dark values apply only under `[data-theme="dark"]`. Light is the default on every device; the system colour scheme is deliberately ignored |
+| `assets/site.js` | Injects the emergency strip, header, drawer and footer into `#site-header` / `#site-footer`; language switch; theme toggle (light by default, the choice kept in localStorage and carried between pages as `?theme=` and `?lang=` so it survives previews that serve each page from its own origin); Quick exit; live queue simulation on India time; `KIRAN_CHART` SVG helpers; `toast()`, `copyText()` |
 | `assets/i18n.js` | Shared UI strings in English, Gujarati and Hindi, applied through `data-i18n="key"` |
 
 ## Rules that keep the site coherent

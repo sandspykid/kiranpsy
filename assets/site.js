@@ -32,8 +32,7 @@
 
   /* ---------- language ---------- */
   const DICT = window.KIRAN_I18N || { en: {} };
-  let lang = store.get("kiran.lang") || "en";
-  if (!DICT[lang]) lang = "en";
+  let lang = "en";
 
   function t(key) {
     return (DICT[lang] && DICT[lang][key]) || (DICT.en && DICT.en[key]) || key;
@@ -61,18 +60,26 @@
   window.currentLang = () => lang;
 
   /* ---------- theme ---------- */
-  function currentTheme() {
-    const explicit = document.documentElement.getAttribute("data-theme");
-    if (explicit) return explicit;
-    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  }
+  /* Light is the default on every device. Dark applies only when the visitor
+     chooses it with the toggle. The choice is kept in localStorage and, because
+     a preview can serve each page from its own origin, it is also carried on
+     the links between pages as ?theme= and ?lang=. */
+  const params = (() => { try { return new URLSearchParams(location.search); } catch (e) { return new URLSearchParams(); } })();
+  function currentTheme() { return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light"; }
   function setTheme(theme) {
-    if (theme) document.documentElement.setAttribute("data-theme", theme); else document.documentElement.removeAttribute("data-theme");
-    store.set("kiran.theme", theme || "");
-    document.querySelectorAll("[data-theme-toggle]").forEach((b) => { b.innerHTML = currentTheme() === "dark" ? I.sun : I.moon; });
+    theme = theme === "dark" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", theme);
+    store.set("kiran.theme", theme);
+    document.querySelectorAll("[data-theme-toggle]").forEach((b) => { b.innerHTML = theme === "dark" ? I.sun : I.moon; });
   }
-  const savedTheme = store.get("kiran.theme");
-  if (savedTheme === "dark" || savedTheme === "light") document.documentElement.setAttribute("data-theme", savedTheme);
+  const urlTheme = params.get("theme");
+  const savedTheme = urlTheme === "dark" || urlTheme === "light" ? urlTheme : store.get("kiran.theme");
+  document.documentElement.setAttribute("data-theme", savedTheme === "dark" ? "dark" : "light");
+  if (urlTheme === "dark" || urlTheme === "light") store.set("kiran.theme", urlTheme);
+  const urlLang = params.get("lang");
+  lang = (urlLang && DICT[urlLang]) ? urlLang : (store.get("kiran.lang") || "en");
+  if (!DICT[lang]) lang = "en";
+  if (urlLang && DICT[urlLang]) store.set("kiran.lang", urlLang);
 
   /* ---------- toast ---------- */
   let toastEl, toastTimer;
@@ -319,7 +326,18 @@
     renderFooter();
     renderWhatsApp();
     applyLang(lang, false);
-    setTheme(document.documentElement.getAttribute("data-theme") || "");
+    setTheme(currentTheme());
+    // Carry the chosen theme and language to the next page on every internal link.
+    document.addEventListener("click", (e) => {
+      const a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+      if (!a) return;
+      const href = a.getAttribute("href") || "";
+      if (!/^[a-z0-9-]+\.html(#[^?]*)?$/i.test(href)) return;
+      const theme = currentTheme();
+      if (theme === "light" && lang === "en") return;
+      const parts = href.split("#");
+      a.setAttribute("href", parts[0] + "?theme=" + theme + "&lang=" + lang + (parts[1] ? "#" + parts[1] : ""));
+    }, true);
     document.querySelectorAll("[data-queue]").forEach((el) => { renderQueue(el); setInterval(() => renderQueue(el), 30000); });
     document.addEventListener("kiran:lang", () => document.querySelectorAll("[data-queue]").forEach(renderQueue));
     document.querySelectorAll("[data-copy]").forEach((b) => b.addEventListener("click", () => window.copyText(b.getAttribute("data-copy"), b)));

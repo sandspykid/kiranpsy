@@ -14,7 +14,7 @@ const path = require('path');
       const errors = [];
       page.on('pageerror', e => errors.push('PAGEERROR: ' + e.message));
       page.on('console', m => { if (m.type() === 'error') errors.push('CONSOLE: ' + m.text()); });
-      await page.goto('http://127.0.0.1:8080/' + p, { waitUntil: 'networkidle', timeout: 30000 });
+      await page.goto('http://127.0.0.1:8080/' + p + (scheme === 'dark' ? '?theme=dark' : ''), { waitUntil: 'networkidle', timeout: 30000 });
       await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 60)); } window.scrollTo(0, 0); });
       await page.waitForTimeout(700);
       const sw = await page.evaluate(() => document.documentElement.scrollWidth);
